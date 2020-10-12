@@ -1,20 +1,19 @@
 package com.company;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        int [] [] mas1 = new int [3] [3];
+        MatrixOperation matrixMultiplier = new MatrixOperation();
 
-        int [] [] mas2 = new int [3] [3];
+        int [] [] arr1 = new CustomIntegerMatrixCreator().createMatrix();
 
-        MatrixOperation matrix = new MatrixOperation();
+        int [] [] arr2 = new RandomIntegerMatrixCreator().createMatrix();
 
-        matrix.fillMatrix(mas1);
-
-        matrix.fillMatrix(mas2);
-
-        matrix.multiplyMatrix(mas1, mas2);
-
+        matrixMultiplier.multiplyMatrix(arr1, arr2);
     }
 }
