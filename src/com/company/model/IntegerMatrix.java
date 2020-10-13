@@ -8,28 +8,39 @@ public class IntegerMatrix  {
 
     private int [] [] arr;
 
+    private int length;
+
+    private int value;
+
     public IntegerMatrix(int rows, int columns){
 
-        this.rows =rows;
+        this.rows = rows;
 
         this.columns = columns;
 
-        arr = new int [this.rows] [this.columns];
+        this.arr = new int [rows] [columns];
 
     }
 
-    IntegerMatrix (){
+    public IntegerMatrix(){
 
         this.rows = 3;
 
         this.columns = 3;
 
-        arr = new int [this.rows] [this.columns];
+        this.arr = new int [rows] [columns];
+
     }
 
     public IntegerMatrix(int[][] arr){
 
-        this.arr = arr;
+        this.columns = arr[0].length;
+
+        this.rows = arr.length;
+
+        this.arr = new int [rows] [columns];
+
+        setAllValues(arr);
     }
 
     public void showMatrix(){
@@ -45,37 +56,43 @@ public class IntegerMatrix  {
             System.out.println();
 
         }
-        System.out.println("------------");
+        System.out.println("----------");
+
     }
 
-    public void setValue(int [] [] arr){
+    public void setAllValues(int [] [] arr){
 
-        for (int x = 0; x < this.arr.length; x++){
+        if (arr.length == this.arr.length || arr[0].length == this.arr[0].length) {
 
-            for (int k = 0; k < this.arr [0].length; k++){
+            for (int x = 0; x < this.arr.length; x++) {
 
-                this.arr [x] [k] = arr [x] [k];
+                for (int k = 0; k < this.arr[0].length; k++) {
+
+                    int j = arr[x][k];
+
+                    this.arr[x][k] = j;
+                }
             }
         }
     }
 
     public int getLength(){
 
-        int length = this.arr.length;
+        length = this.arr.length;
 
         return length;
     }
 
     public int getRows(){
 
-        int rows = this.rows;
+        rows = this.arr.length;
 
         return rows;
     }
 
-    public int getColumns (){
+    public int getColumns(){
 
-        int columns = this.columns;
+        columns = this.arr[0].length;
 
         return columns;
     }
@@ -84,4 +101,21 @@ public class IntegerMatrix  {
 
         return this.arr;
     }
+
+    public int getValue(int row, int column){
+
+        value = this.arr [row] [column];
+
+        return value;
+    }
+
+    public void setValue(int row, int column, int value){
+
+         this.arr [row] [column] = value;
+    }
 }
+
+
+//arr[0].length - columns
+
+//arr.length - rows

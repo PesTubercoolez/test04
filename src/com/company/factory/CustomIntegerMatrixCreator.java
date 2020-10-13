@@ -1,53 +1,46 @@
 package com.company.factory;
 
+import com.company.exception.NullInputException;
 import com.company.model.IntegerMatrix;
 
 import java.util.Scanner;
 
-public class CustomIntegerMatrixCreator extends MatrixCreator {
+public class CustomIntegerMatrixCreator implements MatrixCreator {
 
-
-     IntegerMatrix matrix;
+    IntegerMatrix matrix;
 
     @Override
-    public IntegerMatrix createMatrix() throws IllegalArgumentException {
+    public IntegerMatrix createMatrix() throws NullInputException {
+
 
         Scanner scanConsole = new Scanner(System.in);
 
-        System.out.println("Enter line quantity");
+        System.out.println("Enter row/s quantity");
 
-        int xQuantity = Integer.parseInt(scanConsole.nextLine());
+           int xQuantity = Integer.parseInt(scanConsole.nextLine());
 
-        System.out.println("Enter column quantity");
+           System.out.println("Enter column/s quantity");
 
-        int yQuantity = Integer.parseInt(scanConsole.nextLine());
+           int yQuantity = Integer.parseInt(scanConsole.nextLine());
 
-        if (xQuantity == 0 || yQuantity ==0){
+           if (xQuantity == 0 || yQuantity == 0) throw new NullInputException("Your input mustn't be equal to 0");
 
-            System.out.println("The quantity of columns/rows should be more than 0");
+           matrix = new IntegerMatrix(xQuantity, yQuantity);
 
-            System.exit(0);
+           int[][] arr = new int[xQuantity][yQuantity];
 
-        }
+           for (int x = 0; x < arr.length; x++) {
 
-        int arr [] [] = new int [xQuantity] [yQuantity];
+               for (int j = 0; j < arr[0].length; j++) {
 
-        for (int x = 0; x < arr.length; x++) {
+                   System.out.println("Enter value");
 
-            for (int j = 0; j < arr [0].length; j++) {
+                   arr[x][j] = Integer.parseInt(scanConsole.nextLine());
+               }
+           }
 
-                System.out.println("Enter value");
+           matrix.setAllValues(arr);
 
-                System.out.println();
-
-                arr[x][j] = Integer.parseInt(scanConsole.nextLine());
-            }
-        }
-
-        matrix = new IntegerMatrix(arr);
-
-        matrix.showMatrix();
-
-        return matrix;
+           return matrix;
     }
 }
