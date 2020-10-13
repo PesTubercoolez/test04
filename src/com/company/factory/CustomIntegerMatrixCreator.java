@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class CustomIntegerMatrixCreator implements MatrixCreator {
 
-    IntegerMatrix matrix;
+
 
     @Override
     public IntegerMatrix createMatrix() throws NullInputException {
@@ -25,7 +25,7 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
 
            if (xQuantity == 0 || yQuantity == 0) throw new NullInputException("Your input mustn't be equal to 0");
 
-           matrix = new IntegerMatrix(xQuantity, yQuantity);
+          IntegerMatrix matrix = new IntegerMatrix(xQuantity, yQuantity);
 
            int[][] arr = new int[xQuantity][yQuantity];
 

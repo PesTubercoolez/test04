@@ -6,14 +6,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomIntegerMatrixCreator implements MatrixCreator {
 
-    IntegerMatrix matrix;
 
     @Override
     public IntegerMatrix createMatrix() {
 
         int l;
 
-        matrix = new IntegerMatrix();
+       IntegerMatrix matrix = new IntegerMatrix();
 
             for (int x = 0; x < matrix.getRows(); x++) {
 
