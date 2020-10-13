@@ -1,11 +1,18 @@
-package com.company;
+package com.company.factory;
+
+import com.company.factory.MatrixCreator;
+import com.company.model.IntegerMatrix;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomIntegerMatrixCreator extends MatrixCreator {
 
+    IntegerMatrix matrix;
+
     @Override
-    public int [] [] createMatrix() {
+    public IntegerMatrix createMatrix() {
+
+        matrix = new IntegerMatrix(3, 3);
 
         int [] [] arr = new int [3] [3];
 
@@ -14,11 +21,13 @@ public class RandomIntegerMatrixCreator extends MatrixCreator {
                 for (int k = 0; k < arr.length; k++) {
 
                     arr[x][k] = ThreadLocalRandom.current().nextInt(0, 9 + 1);
-
                 }
             }
-            super.showMatrix(arr);
 
-            return arr;
+            matrix.setValue(arr);
+
+            matrix.showMatrix();
+
+            return matrix;
         }
 }
