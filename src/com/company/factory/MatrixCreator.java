@@ -1,10 +1,9 @@
 package com.company.factory;
 
-import com.company.exception.NullInputException;
-import com.company.model.IntegerMatrix;
+import com.company.exception.ZeroInputException;
+import com.company.model.Matrix;
 
 public interface MatrixCreator {
 
-    public abstract IntegerMatrix createMatrix() throws NullInputException;
-
+    Matrix createMatrix(int rows, int columns) throws ZeroInputException;
 }
