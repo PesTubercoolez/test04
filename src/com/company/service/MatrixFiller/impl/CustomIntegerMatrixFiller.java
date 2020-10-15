@@ -10,17 +10,14 @@ public class CustomIntegerMatrixFiller implements MatrixFiller {
     public Matrix fillMatrix(Matrix matrix) {
 
         InputScanner scanner = new InputScanner();
-
         System.out.println("Enter values of matrix");
 
         for (int x = 0; x < matrix.getRows(); x++) {
 
             for (int k = 0; k < matrix.getColumns(); k++) {
-
                 matrix.setValue(x, k, scanner.scanInt());
             }
         }
-
         return matrix;
     }
 }

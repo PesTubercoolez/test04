@@ -12,13 +12,10 @@ public class RandomIntegerMatrixCreator implements MatrixCreator {
     @Override
     public Matrix createMatrix(int rows, int columns) throws ZeroInputException {
 
-        if (rows == 0 || columns == 0){
-
+        if (rows == 0 || columns == 0) {
             throw new ZeroInputException();
-
         }
 
         return new RandomIntegerMatrixFiller().fillMatrix(new IntegerMatrix(rows, columns));
-
     }
 }

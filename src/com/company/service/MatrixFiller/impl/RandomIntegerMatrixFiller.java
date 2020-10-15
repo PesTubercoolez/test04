@@ -14,7 +14,6 @@ public class RandomIntegerMatrixFiller implements MatrixFiller {
         for (int x = 0; x < matrix.getRows(); x++) {
 
             for (int k = 0; k < matrix.getColumns(); k++) {
-
                 matrix.setValue(x, k, ThreadLocalRandom.current().nextInt(0, 9 + 1));
             }
         }
