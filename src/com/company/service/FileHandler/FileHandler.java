@@ -9,4 +9,5 @@ public interface FileHandler {
 
         File createFile(String path) throws IOException;
         void deleteFile(String path) throws IOException;
+        void cleanFile(String path) throws IOException;
     }
