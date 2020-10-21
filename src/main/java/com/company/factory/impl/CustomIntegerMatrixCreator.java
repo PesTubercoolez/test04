@@ -12,14 +12,10 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
     @Override
     public Matrix createMatrix(int rows, int columns) throws ZeroInputException {
 
-        IntegerMatrix matrix = new IntegerMatrix(rows, columns);
-
-            if (rows == 0 || columns == 0) {
-                throw new ZeroInputException();
-            }
-            new CustomIntegerMatrixFiller().fillMatrix(matrix);
-
-        return matrix;
+        if (rows == 0 || columns == 0) {
+            throw new ZeroInputException();
+        }
+        return new IntegerMatrix(rows, columns);
     }
 
     public Matrix createMatrixFromFile(List<List<String>> list) throws ZeroInputException{

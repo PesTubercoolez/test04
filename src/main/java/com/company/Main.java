@@ -1,4 +1,5 @@
 package com.company;
+
 import com.company.FileConstants.FilePathConstants;
 import com.company.exception.ZeroInputException;
 import com.company.factory.impl.CustomIntegerMatrixCreator;
@@ -17,7 +18,6 @@ public class Main {
         file = new IntegerFileHandler().createFile(FilePathConstants.WINDOWS_ABSOLUTE_FILE_PATH);
         XLSXFileParser fileParser = new XLSXFileParser();
         CustomIntegerMatrixCreator creator = new CustomIntegerMatrixCreator();
-
         Matrix firstMatrix = creator.createMatrixFromFile(fileParser.parseVariablesFromFile(file, 1));
         Matrix secondMatrix =  creator.createMatrixFromFile(fileParser.parseVariablesFromFile(file, 0));
         secondMatrix.showMatrix();

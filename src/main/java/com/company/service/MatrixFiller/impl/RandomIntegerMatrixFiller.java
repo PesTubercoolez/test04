@@ -8,14 +8,12 @@ public class RandomIntegerMatrixFiller implements MatrixFiller {
 
 
     @Override
-    public Matrix fillMatrix(Matrix matrix) {
+    public void fillMatrix(Matrix matrix) {
 
         for (int x = 0; x < matrix.getRows(); x++) {
             for (int k = 0; k < matrix.getColumns(); k++) {
                 matrix.setValue(x, k, ThreadLocalRandom.current().nextInt(0, 9 + 1));
             }
         }
-
-        return matrix;
     }
 }
