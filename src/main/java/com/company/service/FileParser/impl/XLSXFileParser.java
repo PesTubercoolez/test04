@@ -3,11 +3,13 @@ package com.company.service.FileParser.impl;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
 import com.company.service.FileParser.FIleParser;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class XLSXFileParser implements FIleParser {
@@ -21,30 +23,28 @@ public class XLSXFileParser implements FIleParser {
       parseVariablesFromFile(file, numberOfFile);
     }
 
-    public ArrayList <ArrayList <String>> parseVariablesFromFile(File file, int numberOFFile) throws IOException {
+    public List <List<String>> parseVariablesFromFile(File file, int numberOFFile) throws IOException {
 
         Double val;
-        ArrayList <ArrayList <String>> variables = new ArrayList<>();
+        List <List <String>> ListOfVariables = new ArrayList<>();
         FileInputStream reader = new FileInputStream(file);
-        XSSFWorkbook workbook = new XSSFWorkbook(reader);
-        XSSFSheet spreadsheet = workbook.getSheetAt(numberOFFile);
-        Iterator <Row> rowIterator = spreadsheet.iterator();
+        Workbook workbook = new XSSFWorkbook(reader);
 
-        while (rowIterator.hasNext()){
-            row = (XSSFRow) rowIterator.next();
-            Iterator <Cell> cellIterator = row.cellIterator();
-            ArrayList <String> a1 = new ArrayList<>();
-            variables.add(a1);
+        for (Row cells : workbook.getSheetAt(numberOFFile)) {
+            row = (XSSFRow) cells;
+            Iterator<Cell> cellIterator = row.cellIterator();
+            List<String> innerListOfVariables = new ArrayList<>();
+            ListOfVariables.add(innerListOfVariables);
 
-            while (cellIterator.hasNext()){
+            while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
                 val = cell.getNumericCellValue();
-                a1.add(val.toString());
-                a1.trimToSize();
+                innerListOfVariables.add(val.toString());
+                ((ArrayList<String>) innerListOfVariables).trimToSize();
             }
         }
-        variables.trimToSize();
+        ((ArrayList<List<String>>) ListOfVariables).trimToSize();
 
-        return variables;
+        return ListOfVariables;
     }
 }

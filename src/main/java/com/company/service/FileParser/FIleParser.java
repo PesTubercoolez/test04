@@ -2,8 +2,8 @@ package com.company.service.FileParser;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface FIleParser {
-   ArrayList<ArrayList<String>> parseVariablesFromFile(File file, int numberOfFile) throws IOException;
+   List <List<String>> parseVariablesFromFile(File file, int numberOfFile) throws IOException;
 }

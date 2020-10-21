@@ -4,5 +4,5 @@ import com.company.model.Matrix;
 
 public interface MatrixOperation {
 
-    Matrix multiplyMatrix(Matrix matrix1, Matrix matrix2);
+    Matrix multiplyMatrix(Matrix firstMatrix, Matrix secondMatrix);
 }

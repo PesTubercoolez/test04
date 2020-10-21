@@ -5,9 +5,7 @@ import com.company.factory.MatrixCreator;
 import com.company.model.Matrix;
 import com.company.model.impl.IntegerMatrix;
 import com.company.service.MatrixFiller.impl.CustomIntegerMatrixFiller;
-
-import java.time.zone.ZoneRulesException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class CustomIntegerMatrixCreator implements MatrixCreator {
 
@@ -15,25 +13,23 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
     public Matrix createMatrix(int rows, int columns) throws ZeroInputException {
 
         IntegerMatrix matrix = new IntegerMatrix(rows, columns);
-        CustomIntegerMatrixFiller customFiller = new CustomIntegerMatrixFiller();
 
             if (rows == 0 || columns == 0) {
                 throw new ZeroInputException();
             }
-             customFiller.fillMatrix(matrix);
+            new CustomIntegerMatrixFiller().fillMatrix(matrix);
 
         return matrix;
     }
 
-    public Matrix createMatrixFromFile(ArrayList<ArrayList<String>> list) throws ZeroInputException{
+    public Matrix createMatrixFromFile(List<List<String>> list) throws ZeroInputException{
 
         IntegerMatrix matrix = new IntegerMatrix(list.size(), list.get(0).size());
-        CustomIntegerMatrixFiller customFiller = new CustomIntegerMatrixFiller();
 
         if (matrix.getRows() == 0 || matrix.getColumns() == 0 ){
             throw new ZeroInputException();
         }
-        customFiller.fillMatrixFromFile(matrix, list);
+        new CustomIntegerMatrixFiller().fillMatrixFromFile(matrix, list);
 
         return matrix;
     }
