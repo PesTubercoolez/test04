@@ -4,7 +4,7 @@ import com.company.exception.ZeroInputException;
 import com.company.factory.MatrixCreator;
 import com.company.model.Matrix;
 import com.company.model.impl.IntegerMatrix;
-import com.company.service.MatrixFiller.impl.RandomIntegerMatrixFiller;
+
 
 
 public class RandomIntegerMatrixCreator implements MatrixCreator {
@@ -15,9 +15,7 @@ public class RandomIntegerMatrixCreator implements MatrixCreator {
         if (rows == 0 || columns == 0) {
             throw new ZeroInputException();
         }
-        IntegerMatrix matrix = new IntegerMatrix(rows, columns);
-        new RandomIntegerMatrixFiller().fillMatrix(matrix);
 
-        return matrix;
+        return new IntegerMatrix(rows, columns);
     }
 }

@@ -4,7 +4,8 @@ import com.company.exception.ZeroInputException;
 import com.company.factory.MatrixCreator;
 import com.company.model.Matrix;
 import com.company.model.impl.IntegerMatrix;
-import com.company.service.MatrixFiller.impl.CustomIntegerMatrixFiller;
+
+
 import java.util.List;
 
 public class CustomIntegerMatrixCreator implements MatrixCreator {
@@ -25,7 +26,6 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
         if (matrix.getRows() == 0 || matrix.getColumns() == 0 ){
             throw new ZeroInputException();
         }
-        new CustomIntegerMatrixFiller().fillMatrixFromFile(matrix, list);
 
         return matrix;
     }

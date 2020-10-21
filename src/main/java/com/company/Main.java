@@ -6,6 +6,7 @@ import com.company.factory.impl.CustomIntegerMatrixCreator;
 import com.company.model.Matrix;
 import com.company.service.FileHandler.impl.IntegerFileHandler;
 import com.company.service.FileParser.impl.XLSXFileParser;
+import com.company.service.MatrixFiller.impl.CustomIntegerMatrixFiller;
 import com.company.service.MatrixOperation.impl.IntegerMatrixOperation;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,9 @@ public class Main {
         CustomIntegerMatrixCreator creator = new CustomIntegerMatrixCreator();
         Matrix firstMatrix = creator.createMatrixFromFile(fileParser.parseVariablesFromFile(file, 1));
         Matrix secondMatrix =  creator.createMatrixFromFile(fileParser.parseVariablesFromFile(file, 0));
+        CustomIntegerMatrixFiller filler = new CustomIntegerMatrixFiller();
+        filler.fillMatrixFromFile(firstMatrix, fileParser.parseVariablesFromFile(file, 1));
+        filler.fillMatrixFromFile(secondMatrix, fileParser.parseVariablesFromFile(file, 0));
         secondMatrix.showMatrix();
         firstMatrix.showMatrix();
         new IntegerMatrixOperation().multiplyMatrix(secondMatrix, firstMatrix).showMatrix();
