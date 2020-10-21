@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class CustomIntegerMatrixFiller implements MatrixFiller {
 
     @Override
-    public Matrix fillMatrix(Matrix matrix) {
+    public void fillMatrix(Matrix matrix) {
 
         InputScanner scanner = new InputScanner();
         System.out.println("Enter values of matrix");
@@ -21,11 +21,9 @@ public class CustomIntegerMatrixFiller implements MatrixFiller {
                 matrix.setValue(x, k, scanner.scanInt());
             }
         }
-
-        return matrix;
     }
 
-    public Matrix fillMatrixFromFile(Matrix matrix, ArrayList<ArrayList<String>> list){
+    public void fillMatrixFromFile(Matrix matrix, ArrayList<ArrayList<String>> list){
 
         for (int x = 0; x < list.size(); x++){
 
@@ -34,7 +32,5 @@ public class CustomIntegerMatrixFiller implements MatrixFiller {
                 matrix.setValue(x, j,(int) Double.parseDouble(list.get(x).get(j)));
             }
         }
-
-        return matrix;
     }
 }

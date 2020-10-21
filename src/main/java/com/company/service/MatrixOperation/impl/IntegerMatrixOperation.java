@@ -6,29 +6,27 @@ import com.company.service.MatrixOperation.MatrixOperation;
 
 public class IntegerMatrixOperation implements MatrixOperation {
 
-    public Matrix multiplyMatrix(Matrix matrix1, Matrix matrix2) {
+    public Matrix multiplyMatrix(Matrix firstMatrix, Matrix secondMatrix) {
 
-        if (matrix1.getRows() == matrix2.getColumns() || matrix1.getColumns() == matrix2.getRows()) {
+        if (firstMatrix.getRows() == secondMatrix.getColumns() || firstMatrix.getColumns() == secondMatrix.getRows()) {
 
-            IntegerMatrix matrix3 = new IntegerMatrix(matrix1.getRows(), matrix2.getColumns());
-            int[][] arr = matrix3.getMatrix();
-            for (int i = 0; i < matrix1.getRows(); i++) {
+            IntegerMatrix thirdMatrix = new IntegerMatrix(firstMatrix.getRows(), secondMatrix.getColumns());
+            int[][] arr = thirdMatrix.getMatrix();
 
-                for (int j = 0; j < matrix2.getColumns(); j++) {
-
-                    for (int k = 0; k < matrix1.getColumns(); k++) {
-                        arr[i][j] += matrix1.getValue(i, k).intValue() * matrix2.getValue(k, j).intValue();
+            for (int i = 0; i < firstMatrix.getRows(); i++) {
+                for (int j = 0; j < secondMatrix.getColumns(); j++) {
+                    for (int k = 0; k < firstMatrix.getColumns(); k++) {
+                        arr[i][j] += firstMatrix.getValue(i, k).intValue() * secondMatrix.getValue(k, j).intValue();
                     }
                 }
             }
-            matrix3.setAllValues(arr);
+            thirdMatrix.setAllValues(arr);
 
-            return matrix3;
-
+            return thirdMatrix;
         } else {
             System.out.println("You cannot multiply such types of matrix (The quantity of columns in the first matrix must be equal to the quantity of rows in the second)" + "\n");
 
-            return matrix1;
+            return firstMatrix;
         }
     }
 }

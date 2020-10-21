@@ -6,5 +6,5 @@ import java.util.ArrayList;
 
 public interface MatrixFiller {
 
-    public Matrix fillMatrix(Matrix matrix);
+    public void fillMatrix(Matrix matrix);
 }

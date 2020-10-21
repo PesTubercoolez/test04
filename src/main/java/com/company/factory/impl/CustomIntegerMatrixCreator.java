@@ -28,12 +28,10 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
     public Matrix createMatrixFromFile(ArrayList<ArrayList<String>> list) throws ZeroInputException{
 
         IntegerMatrix matrix = new IntegerMatrix(list.size(), list.get(0).size());
-        CustomIntegerMatrixFiller customFiller = new CustomIntegerMatrixFiller();
 
         if (matrix.getRows() == 0 || matrix.getColumns() == 0 ){
             throw new ZeroInputException();
         }
-        customFiller.fillMatrixFromFile(matrix, list);
 
         return matrix;
     }
