@@ -1,7 +1,0 @@
-Size:
-rows = 2
-columns = 2
-
-Value:
-23
-45
