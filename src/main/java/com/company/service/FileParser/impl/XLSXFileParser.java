@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.company.model.Matrix;
 import com.company.service.FileParser.FIleParser;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -46,5 +47,24 @@ public class XLSXFileParser implements FIleParser {
         ((ArrayList<List<String>>) ListOfVariables).trimToSize();
 
         return ListOfVariables;
+    }
+
+    @Override
+    public List<List<String>> parseVariablesToFile(Matrix matrix)  {
+
+        List <List<String>> importList = new ArrayList<>(matrix.getRows());
+        String importInformation;
+
+        for (int x = 0; x < matrix.getRows();x++) {
+            List <String> innerList = new ArrayList<>(matrix.getColumns());
+            importList.add(innerList);
+
+            for (int j = 0; j < matrix.getColumns(); j++) {
+                importInformation = matrix.getValue(x, j).toString();
+                innerList.add(importInformation);
+            }
+        }
+
+        return importList;
     }
 }
