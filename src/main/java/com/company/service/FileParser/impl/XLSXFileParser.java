@@ -4,16 +4,15 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import com.company.model.Matrix;
-import com.company.service.FileParser.FIleParser;
+import com.company.service.FileParser.FileParser;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class XLSXFileParser implements FIleParser {
+public class XLSXFileParser implements FileParser {
 
     static XSSFRow row;
 
@@ -21,10 +20,10 @@ public class XLSXFileParser implements FIleParser {
 
     public XLSXFileParser(File file, int numberOfFile) throws IOException {
 
-      parseVariablesFromFile(file, numberOfFile);
+      readFile(file, numberOfFile);
     }
 
-    public List <List<String>> parseVariablesFromFile(File file, int numberOFFile) throws IOException {
+    public List <List<String>> readFile(File file, int numberOFFile) throws IOException {
 
         Double val;
         List <List <String>> ListOfVariables = new ArrayList<>();

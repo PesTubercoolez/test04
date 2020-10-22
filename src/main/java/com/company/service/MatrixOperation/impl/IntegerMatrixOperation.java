@@ -8,7 +8,7 @@ public class IntegerMatrixOperation implements MatrixOperation {
 
     public Matrix multiplyMatrix(Matrix firstMatrix, Matrix secondMatrix) {
 
-        if (firstMatrix.getRows() == secondMatrix.getColumns() || firstMatrix.getColumns() == secondMatrix.getRows()) {
+        if (firstMatrix.getRows() == secondMatrix.getColumns() || secondMatrix.getRows() == firstMatrix.getColumns()) {
 
             IntegerMatrix thirdMatrix = new IntegerMatrix(firstMatrix.getRows(), secondMatrix.getColumns());
             int[][] arr = thirdMatrix.getMatrix();
@@ -24,7 +24,7 @@ public class IntegerMatrixOperation implements MatrixOperation {
 
             return thirdMatrix;
         } else {
-            System.out.println("You cannot multiply such types of matrix (The quantity of columns in the first matrix must be equal to the quantity of rows in the second)" + "\n");
+            System.out.println("You cannot multiply such types of matrix (The quantity of columns in the first matrix must be equal to the quantity of rows in the second)"+ firstMatrix.getSize() + " " + secondMatrix.getSize() + "\n");
 
             return firstMatrix;
         }

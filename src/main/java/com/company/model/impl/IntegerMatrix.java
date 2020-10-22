@@ -62,7 +62,7 @@ public class IntegerMatrix implements Matrix {
     @Override
     public int getSize() {
 
-        size = this.arr.length + this.arr[0].length;
+        size = this.arr.length * this.arr[0].length;
         return size;
     }
 
