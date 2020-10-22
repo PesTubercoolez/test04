@@ -8,5 +8,5 @@ import java.util.List;
 public interface MatrixCreator {
 
     Matrix createMatrix(int rows, int columns) throws ZeroInputException;
-    Matrix createMatrixFromFile (List <List<String>> list);
+    Matrix createMatrixFromFile (List <List<String>> list) throws ZeroInputException;
 }

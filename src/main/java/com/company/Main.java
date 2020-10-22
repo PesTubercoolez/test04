@@ -2,7 +2,6 @@ package com.company;
 
 import com.company.FileConstants.FilePathConstants;
 import com.company.exception.ZeroInputException;
-import com.company.factory.MatrixCreator;
 import com.company.factory.impl.CustomIntegerMatrixCreator;
 import com.company.model.Matrix;
 import com.company.service.FileHandler.FileHandler;
@@ -11,36 +10,36 @@ import com.company.service.FileParser.FileParser;
 import com.company.service.FileParser.impl.XLSXFileParser;
 import com.company.service.MatrixFiller.impl.CustomIntegerMatrixFiller;
 import com.company.service.MatrixOperation.impl.IntegerMatrixOperation;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) throws ZeroInputException, IOException {
-        FileParser parser = new XLSXFileParser();
+    private static void writeFile(FileHandler handler, FileParser parser,String path, Matrix firstMatrix, Matrix secondMatrix) throws IOException{
+
+        File file = handler.createFile(path);
+        Matrix thirdMatrix = new IntegerMatrixOperation().multiplyMatrix(firstMatrix, secondMatrix);
+        handler.writeFile(file, parser.parseVariablesToFile(thirdMatrix));
+    }
+
+    private static Matrix readFile(FileParser parser, String path, int numberOfSheet, FileHandler handler) throws IOException, ZeroInputException {
+
+        File file = handler.createFile(path);
         CustomIntegerMatrixCreator creator = new CustomIntegerMatrixCreator();
-        XLSXFileHandler fileHandler = new XLSXFileHandler();
-        File readedFile = fileHandler.createFile(FilePathConstants.LINUX_ABSOLUTE_FILE_READ_PATH);
-        File writedFile = fileHandler.createFile(FilePathConstants.LINUX_ABSOLUTE_FILE_WRITE_PATH);
-        Matrix firstMatrix = creator.createMatrixFromFile(parser.readFile(readedFile, 1));
-        Matrix secondMatrix = creator.createMatrixFromFile(parser.readFile(readedFile, 0));
-        readFile(parser, firstMatrix, readedFile, 1);
-        readFile(parser, secondMatrix, readedFile, 0);
-        Matrix resultMatrix = new IntegerMatrixOperation().multiplyMatrix(firstMatrix, secondMatrix);
-        writeFile(fileHandler, parser, writedFile, resultMatrix);
-    }
-
-    private static void writeFile(FileHandler handler, FileParser parser, File file, Matrix matrix) throws IOException{
-        handler.writeFile(file, parser.parseVariablesToFile(matrix));
-    }
-
-    private static Matrix readFile(FileParser parser, Matrix matrix, File file, int numberOfSheet) throws IOException {
-
+        Matrix matrix = creator.createMatrixFromFile(parser.readFromFile(file, numberOfSheet));
         CustomIntegerMatrixFiller filler = new CustomIntegerMatrixFiller();
-        filler.fillMatrixFromFile(matrix, parser.readFile(file, numberOfSheet));
+        filler.fillMatrixFromFile(matrix, parser.readFromFile(file, numberOfSheet));
 
         return matrix;
+    }
+
+    public static void main(String[] args) throws ZeroInputException, IOException {
+
+        String readPath = FilePathConstants.LINUX_ABSOLUTE_FILE_READ_PATH;
+        FileParser parser = new XLSXFileParser();
+        XLSXFileHandler fileHandler = new XLSXFileHandler();
+        Matrix firstMatrix = readFile(parser,readPath , 1, fileHandler);
+        Matrix secondMatrix = readFile(parser, readPath, 0, fileHandler);
+        writeFile(fileHandler, parser, FilePathConstants.LINUX_ABSOLUTE_FILE_WRITE_PATH, firstMatrix, secondMatrix);
     }
 }

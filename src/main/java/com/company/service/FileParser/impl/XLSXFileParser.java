@@ -20,10 +20,10 @@ public class XLSXFileParser implements FileParser {
 
     public XLSXFileParser(File file, int numberOfFile) throws IOException {
 
-      readFile(file, numberOfFile);
+      readFromFile(file, numberOfFile);
     }
 
-    public List <List<String>> readFile(File file, int numberOFFile) throws IOException {
+    public List <List<String>> readFromFile(File file, int numberOFFile) throws IOException {
 
         Double val;
         List <List <String>> ListOfVariables = new ArrayList<>();
