@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.FileConstants.FilePathConstants;
 import com.company.exception.ZeroInputException;
+import com.company.factory.MatrixCreator;
 import com.company.factory.impl.CustomIntegerMatrixCreator;
 import com.company.model.Matrix;
 import com.company.service.FileHandler.FileHandler;
@@ -13,6 +14,7 @@ import com.company.service.MatrixOperation.impl.IntegerMatrixOperation;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
 
@@ -27,7 +29,6 @@ public class Main {
         readFile(parser, firstMatrix, readedFile, 1);
         readFile(parser, secondMatrix, readedFile, 0);
         Matrix resultMatrix = new IntegerMatrixOperation().multiplyMatrix(firstMatrix, secondMatrix);
-        resultMatrix.showMatrix();
         writeFile(fileHandler, parser, writedFile, resultMatrix);
     }
 
