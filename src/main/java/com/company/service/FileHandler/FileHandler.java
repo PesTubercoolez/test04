@@ -8,5 +8,4 @@ public interface FileHandler {
 
         File createFile(String path) throws IOException;
         void writeFile (File file, List <List<String>> list) throws IOException;
-
-    }
+}

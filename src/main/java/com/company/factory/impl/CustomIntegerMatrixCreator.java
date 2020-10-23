@@ -14,6 +14,7 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
         if (rows == 0 || columns == 0) {
             throw new ZeroInputException();
         }
+
         return new IntegerMatrix(rows, columns);
     }
 
@@ -27,5 +28,4 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
 
         return matrix;
     }
-
 }

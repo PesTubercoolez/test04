@@ -5,7 +5,4 @@ public class ZeroInputException extends Exception {
     public ZeroInputException() {
         super();
     }
-
 }
-
-

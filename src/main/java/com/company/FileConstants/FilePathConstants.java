@@ -7,5 +7,4 @@ public class FilePathConstants {
     public static final String RELATIVE_FILE_WRITE_PATH = "/com/company/resources/Results.xlsx";
     public static final String RELATIVE_FILE_READ_PATH = "/com/company/resources/Matrix.xlsx";
     public static final String RELATIVE_FILE_DIRECTORY_PATH = "/com/company/resources/";
-
 }
