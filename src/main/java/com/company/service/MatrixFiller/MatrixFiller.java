@@ -5,4 +5,5 @@ import com.company.model.Matrix;
 public interface MatrixFiller {
 
     void fillMatrix(Matrix matrix);
+
 }

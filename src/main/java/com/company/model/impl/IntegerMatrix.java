@@ -97,6 +97,7 @@ public class IntegerMatrix implements Matrix {
 
       this.arr[row][column] = value.intValue();
     }
+
 }
 
 

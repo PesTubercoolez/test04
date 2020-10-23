@@ -13,4 +13,5 @@ public class InputScanner {
 
         return scannedInt;
     }
+
 }

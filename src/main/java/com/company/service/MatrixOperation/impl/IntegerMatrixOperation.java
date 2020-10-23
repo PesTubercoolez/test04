@@ -29,5 +29,6 @@ public class IntegerMatrixOperation implements MatrixOperation {
             return firstMatrix;
         }
     }
+
 }
 

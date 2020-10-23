@@ -27,4 +27,5 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
 
         return matrix;
     }
+
 }

@@ -15,6 +15,16 @@ import java.io.IOException;
 
 public class Main {
 
+    public static void main(String[] args) throws ZeroInputException, IOException {
+
+        String readPath = FilePathConstants.LINUX_ABSOLUTE_FILE_READ_PATH;
+        FileParser parser = new XLSXFileParser();
+        XLSXFileHandler fileHandler = new XLSXFileHandler();
+        Matrix firstMatrix = readFile(parser,readPath , 1, fileHandler);
+        Matrix secondMatrix = readFile(parser, readPath, 0, fileHandler);
+        writeFile(fileHandler, parser, FilePathConstants.LINUX_ABSOLUTE_FILE_WRITE_PATH, firstMatrix, secondMatrix);
+    }
+
     private static void writeFile(FileHandler handler, FileParser parser,String path, Matrix firstMatrix, Matrix secondMatrix) throws IOException{
 
         File file = handler.createFile(path);
@@ -33,13 +43,4 @@ public class Main {
         return matrix;
     }
 
-    public static void main(String[] args) throws ZeroInputException, IOException {
-
-        String readPath = FilePathConstants.LINUX_ABSOLUTE_FILE_READ_PATH;
-        FileParser parser = new XLSXFileParser();
-        XLSXFileHandler fileHandler = new XLSXFileHandler();
-        Matrix firstMatrix = readFile(parser,readPath , 1, fileHandler);
-        Matrix secondMatrix = readFile(parser, readPath, 0, fileHandler);
-        writeFile(fileHandler, parser, FilePathConstants.LINUX_ABSOLUTE_FILE_WRITE_PATH, firstMatrix, secondMatrix);
-    }
 }

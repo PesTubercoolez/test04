@@ -24,4 +24,5 @@ public class RandomIntegerMatrixCreator implements MatrixCreator {
     public Matrix createMatrixFromFile(List<List<String>> list) {
         return null;
     }
+
 }
