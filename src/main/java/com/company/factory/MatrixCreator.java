@@ -2,7 +2,6 @@ package com.company.factory;
 
 import com.company.exception.ZeroInputException;
 import com.company.model.Matrix;
-
 import java.util.List;
 
 public interface MatrixCreator {
