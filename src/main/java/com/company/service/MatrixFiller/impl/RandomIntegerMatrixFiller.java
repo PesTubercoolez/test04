@@ -2,6 +2,7 @@ package com.company.service.MatrixFiller.impl;
 
 import com.company.model.Matrix;
 import com.company.service.MatrixFiller.MatrixFiller;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomIntegerMatrixFiller implements MatrixFiller {

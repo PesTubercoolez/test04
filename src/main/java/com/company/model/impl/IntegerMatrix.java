@@ -17,13 +17,6 @@ public class IntegerMatrix implements Matrix {
         this.arr = new int[rows][columns];
     }
 
-    public IntegerMatrix() {
-
-        this.rows = 3;
-        this.columns = 3;
-        this.arr = new int[rows][columns];
-    }
-
     public IntegerMatrix(int[][] arr) {
 
         this.columns = arr[0].length;
@@ -47,7 +40,7 @@ public class IntegerMatrix implements Matrix {
 
     public void setAllValues(int[][] arr) {
 
-        if (arr.length == this.arr.length || arr[0].length == this.arr[0].length) {
+        if (arr.length == this.arr.length && arr[0].length == this.arr[0].length) {
 
             for (int x = 0; x < this.arr.length; x++) {
 
@@ -69,15 +62,15 @@ public class IntegerMatrix implements Matrix {
     @Override
     public int getRows() {
 
-        rows = this.arr.length;
-        return rows;
+        this.rows = this.arr.length;
+        return this.rows;
     }
 
     @Override
     public int getColumns() {
 
-        columns = this.arr[0].length;
-        return columns;
+        this.columns = this.arr[0].length;
+        return this.columns;
     }
 
     public int[][] getMatrix() {
@@ -95,6 +88,6 @@ public class IntegerMatrix implements Matrix {
     @Override
     public void setValue(int row, int column, Number value) {
 
-      this.arr[row][column] = value.intValue();
+        this.arr[row][column] = value.intValue();
     }
 }

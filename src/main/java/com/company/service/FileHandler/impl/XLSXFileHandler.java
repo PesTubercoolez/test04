@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import java.io.*;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class XLSXFileHandler implements FileHandler {
 
         for (List<String> innerList : list) {
             Row row = sheet.createRow(rowCount++);
-            for (int x = 0; x < list.get(0).size(); x++){
+            for (int x = 0; x < list.get(0).size(); x++) {
                 cell = row.createCell(x);
                 cell.setCellValue(Double.parseDouble(innerList.get(x)));
             }
