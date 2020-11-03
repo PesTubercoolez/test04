@@ -4,6 +4,8 @@ import com.company.model.Matrix;
 import com.company.model.impl.IntegerMatrix;
 import com.company.service.MatrixOperation.MatrixOperation;
 
+import java.util.Arrays;
+
 public class IntegerMatrixOperation implements MatrixOperation {
 
     public Matrix multiplyMatrix(Matrix firstMatrix, Matrix secondMatrix) {
@@ -24,12 +26,40 @@ public class IntegerMatrixOperation implements MatrixOperation {
             thirdMatrix.setAllValues(resultArray);
 
             return thirdMatrix;
+
         } else {
             System.out.println("You cannot multiply such types of matrix (The quantity of columns in the first matrix must be equal to the quantity of rows in the second)" + firstMatrix.getRows() + " " + secondMatrix.getColumns() + "\n");
             firstMatrix.showMatrix();
             secondMatrix.showMatrix();
 
             return firstMatrix;
+        }
+    }
+
+    public Number[] multiplyMatrixWithVectors(Matrix firstMatrix, Matrix secondMatrix, int position) {
+
+        long threadId = Thread.currentThread().getId();
+        System.out.println("I'm thread number:  " + threadId);
+
+        if (firstMatrix.getRows() == secondMatrix.getColumns()) {
+            int result;
+            Number[] resultArray = new Number[secondMatrix.getRows()];
+            Arrays.fill(resultArray, 0);
+
+            for (int x = 0; x < secondMatrix.getColumns(); x++) {
+                result = 0;
+                for (int k = 0; k < firstMatrix.getColumns(); k++) {
+                    result += firstMatrix.getVectorValue(position, k, "row").intValue() *
+                            secondMatrix.getVectorValue(x, k, "column").intValue();
+                }
+                resultArray[x] = result;
+            }
+
+            return resultArray;
+
+        } else {
+            System.out.println("You cannot multiply this vectors " + firstMatrix.getColumns() + " " + secondMatrix.getRows());
+            return firstMatrix.getRowVector(0);
         }
     }
 }
