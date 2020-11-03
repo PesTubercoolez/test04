@@ -25,8 +25,8 @@ public class Main {
         XLSXFileHandler fileHandler = new XLSXFileHandler();
         Matrix firstMatrix = readFile(parser, readPath, 0, fileHandler);
         Matrix secondMatrix = readFile(parser, readPath, 1, fileHandler);
-        Matrix thirdMatrix =  enhancedThreadMultiplyer(firstMatrix, secondMatrix);
-        writeFile(fileHandler, parser,FilePathConstants.LINUX_ABSOLUTE_FILE_WRITE_PATH,thirdMatrix);
+        Matrix thirdMatrix = enhancedThreadMultiplyer(firstMatrix, secondMatrix);
+        writeFile(fileHandler, parser, FilePathConstants.LINUX_ABSOLUTE_FILE_WRITE_PATH, thirdMatrix);
     }
 
     private static Matrix enhancedThreadMultiplyer(Matrix firstMatrix, Matrix secondMatrix) throws Exception {
@@ -36,7 +36,7 @@ public class Main {
         Future<Number[]> futureVector;
         CustomIntegerMatrixFiller filler = new CustomIntegerMatrixFiller();
 
-        for (int x = 0; x < firstMatrix.getRows() ; x++) {
+        for (int x = 0; x < firstMatrix.getRows(); x++) {
             futureVector = executor.submit(new VectorIntegerMatrixMultiplication(firstMatrix, secondMatrix, x));
             filler.fillMatrixFromVector(thirdMatrix, futureVector.get(), x);
         }

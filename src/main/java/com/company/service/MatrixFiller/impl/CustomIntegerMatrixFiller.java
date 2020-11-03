@@ -21,7 +21,7 @@ public class CustomIntegerMatrixFiller implements MatrixFiller {
         }
     }
 
-    public  void fillMatrixFromList(Matrix matrix, List<List<String>> list) {
+    public void fillMatrixFromList(Matrix matrix, List<List<String>> list) {
 
         for (int x = 0; x < list.size(); x++) {
             for (int j = 0; j < list.get(0).size(); j++) {
@@ -32,6 +32,6 @@ public class CustomIntegerMatrixFiller implements MatrixFiller {
 
     public void fillMatrixFromVector(Matrix matrix, Number[] vector, int vectorPosition) {
 
-            matrix.setColumnVector(vectorPosition, vector);
+        matrix.setColumnVector(vectorPosition, vector);
     }
 }

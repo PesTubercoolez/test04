@@ -48,8 +48,8 @@ public class IntegerMatrixOperation implements MatrixOperation {
 
             for (int x = 0; x < secondMatrix.getColumns(); x++) {
                 result = 0;
-                for (int k = 0; k <firstMatrix.getColumns(); k++) {
-                    result += firstMatrix.getVectorValue(position,k, "row").intValue() *
+                for (int k = 0; k < firstMatrix.getColumns(); k++) {
+                    result += firstMatrix.getVectorValue(position, k, "row").intValue() *
                             secondMatrix.getVectorValue(x, k, "column").intValue();
                 }
                 resultArray[x] = result;
