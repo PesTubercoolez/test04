@@ -4,6 +4,8 @@ import com.company.exception.ZeroInputException;
 import com.company.factory.MatrixCreator;
 import com.company.model.Matrix;
 import com.company.model.impl.IntegerMatrix;
+import com.google.gson.Gson;
+
 import java.util.List;
 
 public class CustomIntegerMatrixCreator implements MatrixCreator {
@@ -27,5 +29,12 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
         }
 
         return matrix;
+    }
+
+    public Matrix convertMatrixFromJson(String matrixInJson) {
+        IntegerMatrix resultMatrix = new Gson().fromJson(matrixInJson, IntegerMatrix.class);
+        resultMatrix.showMatrix();
+
+        return resultMatrix;
     }
 }

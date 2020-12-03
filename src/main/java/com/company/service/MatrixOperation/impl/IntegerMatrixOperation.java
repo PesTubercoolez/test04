@@ -38,9 +38,6 @@ public class IntegerMatrixOperation implements MatrixOperation {
 
     public Number[] multiplyMatrixWithVectors(Matrix firstMatrix, Matrix secondMatrix, int position) {
 
-        long threadId = Thread.currentThread().getId();
-        System.out.println("I'm thread number:  " + threadId);
-
         if (firstMatrix.getRows() == secondMatrix.getColumns()) {
             int result;
             Number[] resultArray = new Number[secondMatrix.getRows()];
