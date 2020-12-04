@@ -20,9 +20,11 @@ public class PostgresHandler <T> implements RDBCRUD<T> {
     public void insertJSON(String insertStatement, T... firstObject) throws SQLException {
         Connection connection = connect();
         PreparedStatement inStatement = connection.prepareStatement(insertStatement);
+        String insertObject;
 
-        for (int x = 0; x < firstObject.length; x++ ){
-            inStatement.setString((x+1), new Gson().toJson(firstObject[x]));
+        for (int x = 0; x < firstObject.length; x++ ) {
+            insertObject = new Gson().toJson(firstObject[x]);
+            inStatement.setString((x + 1), insertObject);
         }
 
         inStatement.executeUpdate();
@@ -32,7 +34,6 @@ public class PostgresHandler <T> implements RDBCRUD<T> {
 
     @Override
     public String selectJSON(String outStatement, int neededColumn) throws SQLException {
-        int currentColumn = 0;
         Connection connection = connect();
         Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ResultSet resultSet = statement.executeQuery(outStatement);
@@ -43,6 +44,27 @@ public class PostgresHandler <T> implements RDBCRUD<T> {
         connection.close();
 
         return result;
+    }
+
+    private boolean contentChecker(String insertedObject) throws SQLException {
+        boolean firstColumnContentCheck = false;
+        String checkStatement = "SELECT first_matrix,second_matrix FROM matrix_storage";
+        Connection connection = connect();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(checkStatement);
+
+        while (!resultSet.isLast()){
+        resultSet.next();
+        if (insertedObject.equals(resultSet.getString(1))){
+            firstColumnContentCheck = false;
+        }else {
+            firstColumnContentCheck = true;
+        }
+        }
+        connection.close();
+        statement.close();
+        resultSet.close();
+        return firstColumnContentCheck;
     }
 
     private Connection connect() throws SQLException {

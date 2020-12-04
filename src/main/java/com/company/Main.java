@@ -4,9 +4,7 @@ import com.company.FileConstants.FilePathConstants;
 import com.company.exception.ZeroInputException;
 import com.company.factory.impl.CustomIntegerMatrixCreator;
 import com.company.model.Matrix;
-import com.company.model.Result;
 import com.company.model.impl.IntegerMatrix;
-import com.company.service.DataBaseHandler.RDBCRUD;
 import com.company.service.DataBaseHandler.impl.PostgresHandler;
 import com.company.service.FileHandler.FileHandler;
 import com.company.service.FileHandler.impl.XLSXFileHandler;
@@ -23,22 +21,24 @@ import java.util.concurrent.*;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String url = "jdbc:postgresql://localhost:5432/postgres";
+        String url = "jdbc:postgresql://localhost:5432/matrix_db";
         String user = "root";
-        String password = "zetaprime";
+        String password = "zetaprime1";
         String insertStatement = "INSERT INTO matrix_storage (first_matrix, second_matrix) VALUES (to_json(?::json), to_json(?::json))";
-//        String insertResultStatement = "INSERT INTO result_storage (result_matrix) VALUES (to_json(?::json))";
+        String insertResultStatement = "INSERT INTO result_storage (result_matrix) VALUES (to_json(?::json))";
         String returnResultStatement = "SELECT result_matrix FROM result_storage";
+        String returnFirstMatrixStatement = "SELECT first_matrix FROM matrix_storage WHERE id = 1";
+        String returnSecondMatrixStatement = "SELECT second_matrix FROM matrix_storage WHERE id = 1";
         PostgresHandler <Matrix> dbHandler = new PostgresHandler<>(url,user,password);
         String readPath = FilePathConstants.LINUX_ABSOLUTE_FILE_READ_PATH;
         FileParser parser = new XLSXFileParser();
         XLSXFileHandler fileHandler = new XLSXFileHandler();
-        Matrix firstMatrix = readFile(parser, readPath, 0, fileHandler);
-        Matrix secondMatrix = readFile(parser, readPath, 1, fileHandler);
+        Matrix firstMatrix = getMatrixFromDB(dbHandler,returnFirstMatrixStatement, 1);
+        Matrix secondMatrix = getMatrixFromDB(dbHandler,returnSecondMatrixStatement,1 );
         Matrix thirdMatrix = enhancedThreadMultiplyer(firstMatrix,secondMatrix);
-         model ynhn = insertMatrixInDB(dbHandler, insertStatement,firstMatrix,secondMatrix);
-        Result vrt4v = new Result();
-        vrt4v.setId(WEFCERF);
+        insertMatrixInDB(dbHandler,insertResultStatement,thirdMatrix);
+        Matrix forthMatrix = getMatrixFromDB(dbHandler, returnResultStatement,1);
+        forthMatrix.showMatrix();
 //        select these matrix
 
 //        make result
@@ -49,9 +49,8 @@ public class Main {
 
 
 
-        insertMatrixInDB(dbHandler, insertResultStatement,thirdMatrix);
-        Matrix forthMatrix = getMatrixFromDB(dbHandler,returnResultStatement, 1);
-        forthMatrix.showMatrix();
+        //insertMatrixInDB(dbHandler, insertResultStatement,thirdMatrix);
+        //Matrix forthMatrix = getMatrixFromDB(dbHandler,returnResultStatement, 1);
     }
 
     private static Matrix enhancedThreadMultiplyer(Matrix firstMatrix, Matrix secondMatrix) throws Exception {
