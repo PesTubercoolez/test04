@@ -2,11 +2,11 @@ version: '3.1'
 services:
 
   vdma_postgres:
-    image: postgres
+    image: postgres:latest
     environment:
       POSTGRES_DB: matrix_db
       POSTGRES_USER: root
-      POSTGRES_PASSWORD: zetaprime
+      POSTGRES_PASSWORD: zetaprime1
     ports:
       - "5432:5432"
     volumes:

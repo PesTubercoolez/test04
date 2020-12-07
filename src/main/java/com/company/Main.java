@@ -36,25 +36,12 @@ public class Main {
         Matrix firstMatrix = getMatrixFromDB(dbHandler,returnFirstMatrixStatement, 1);
         Matrix secondMatrix = getMatrixFromDB(dbHandler,returnSecondMatrixStatement,1 );
         Matrix thirdMatrix = enhancedThreadMultiplyer(firstMatrix,secondMatrix);
-        insertMatrixInDB(dbHandler,insertResultStatement,thirdMatrix);
+        dbHandler.insertJSONInResult(thirdMatrix);
         Matrix forthMatrix = getMatrixFromDB(dbHandler, returnResultStatement,1);
         forthMatrix.showMatrix();
-//        select these matrix
-
-//        make result
-
-//        save in result db
-
-//        select result
-
-
-
-        //insertMatrixInDB(dbHandler, insertResultStatement,thirdMatrix);
-        //Matrix forthMatrix = getMatrixFromDB(dbHandler,returnResultStatement, 1);
     }
 
     private static Matrix enhancedThreadMultiplyer(Matrix firstMatrix, Matrix secondMatrix) throws Exception {
-
         Matrix thirdMatrix = new IntegerMatrix(firstMatrix.getRows(), secondMatrix.getColumns());
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future<Number[]> futureVector;
@@ -65,17 +52,16 @@ public class Main {
             filler.fillMatrixFromVector(thirdMatrix, futureVector.get(), x);
         }
         executor.shutdown();
+
         return thirdMatrix;
     }
 
     private static void writeFile(FileHandler handler, FileParser parser, String path, Matrix resultMatrix) throws IOException {
-
         File file = handler.createFile(path);
         handler.writeFile(file, parser.parseVariablesToList(resultMatrix));
     }
 
     private static Matrix readFile(FileParser parser, String path, int numberOfSheet, FileHandler handler) throws IOException, ZeroInputException {
-
         File file = handler.createFile(path);
         CustomIntegerMatrixCreator creator = new CustomIntegerMatrixCreator();
         Matrix matrix = creator.createMatrixFromFile(parser.readFromFile(file, numberOfSheet));

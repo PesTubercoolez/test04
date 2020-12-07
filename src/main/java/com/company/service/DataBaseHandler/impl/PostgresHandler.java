@@ -32,6 +32,27 @@ public class PostgresHandler <T> implements RDBCRUD<T> {
         inStatement.close();
     }
 
+    public void insertJSONInResult (T object) throws SQLException {
+        String insertStatement = "INSERT INTO result_storage(matrix_storage_id, result_matrix) VALUES (?, to_json(?::json))";
+        String updateStatement = "UPDATE result_storage SET matrix_storage_id = ?, result_matrix = to_json(?::json)";
+        PreparedStatement preparedStatement;
+        String insertedObject;
+        Connection connection = connect();
+        insertedObject = new Gson().toJson(object);
+
+        if (contentChecker(insertedObject)) {
+             preparedStatement = connection.prepareStatement(insertStatement);
+        }else{
+            preparedStatement = connection.prepareStatement(updateStatement);
+        }
+
+        preparedStatement.setInt(1, 1);
+        preparedStatement.setString(2, insertedObject);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
+    }
+
     @Override
     public String selectJSON(String outStatement, int neededColumn) throws SQLException {
         Connection connection = connect();
@@ -48,27 +69,38 @@ public class PostgresHandler <T> implements RDBCRUD<T> {
 
     private boolean contentChecker(String insertedObject) throws SQLException {
         boolean firstColumnContentCheck = false;
-        String checkStatement = "SELECT first_matrix,second_matrix FROM matrix_storage";
+        int contentCounter = 0;
+        String checkStatement = "SELECT result_matrix FROM result_storage";
         Connection connection = connect();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(checkStatement);
 
-        while (!resultSet.isLast()){
-        resultSet.next();
-        if (insertedObject.equals(resultSet.getString(1))){
-            firstColumnContentCheck = false;
-        }else {
-            firstColumnContentCheck = true;
+        while (!resultSet.isLast()) {
+            resultSet.next();
+            contentCounter = resultSet.getRow();
         }
-        }
+
+            if (contentCounter != 0) {
+                while (!resultSet.isLast()) {
+                    resultSet.next();
+                    if (insertedObject.equals(resultSet.getString(1))) {
+                        firstColumnContentCheck = false;
+                    } else {
+                        firstColumnContentCheck = true;
+                    }
+                }
+            }else {
+                firstColumnContentCheck = true;
+                resultSet.close();
+            }
         connection.close();
         statement.close();
         resultSet.close();
+
         return firstColumnContentCheck;
     }
 
     private Connection connect() throws SQLException {
-
         Connection connection = DriverManager.getConnection(this.URL, this.user, this.password);
 
         return connection;
