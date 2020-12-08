@@ -33,7 +33,6 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
 
     public Matrix convertMatrixFromJson(String matrixInJson) {
         IntegerMatrix resultMatrix = new Gson().fromJson(matrixInJson, IntegerMatrix.class);
-        resultMatrix.showMatrix();
 
         return resultMatrix;
     }

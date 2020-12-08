@@ -1,4 +1,4 @@
-package com.company.FileConstants;
+package com.company.constants.FileConstants;
 
 public class FilePathConstants {
     public static final String LINUX_ABSOLUTE_FILE_READ_PATH = "/home/pes_tubercoolez/IdeaProjects/test04/src/main/resources/Matrix.xlsx";

@@ -1,4 +1,4 @@
-package com.company.FileConstants;
+package com.company.constants.FileConstants;
 
 public class FileExtensionConstants {
 

@@ -1,6 +1,7 @@
 package com.company;
 
-import com.company.FileConstants.FilePathConstants;
+import com.company.constants.DataBaseConstants.DataBaseConstants;
+import com.company.constants.FileConstants.FilePathConstants;
 import com.company.exception.ZeroInputException;
 import com.company.factory.impl.CustomIntegerMatrixCreator;
 import com.company.model.Matrix;
@@ -15,30 +16,36 @@ import com.company.service.MatrixOperation.impl.VectorIntegerMatrixMultiplicatio
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.concurrent.*;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String url = "jdbc:postgresql://localhost:5432/matrix_db";
-        String user = "root";
-        String password = "zetaprime1";
-        String insertStatement = "INSERT INTO matrix_storage (first_matrix, second_matrix) VALUES (to_json(?::json), to_json(?::json))";
-        String insertResultStatement = "INSERT INTO result_storage (result_matrix) VALUES (to_json(?::json))";
-        String returnResultStatement = "SELECT result_matrix FROM result_storage";
-        String returnFirstMatrixStatement = "SELECT first_matrix FROM matrix_storage WHERE id = 1";
-        String returnSecondMatrixStatement = "SELECT second_matrix FROM matrix_storage WHERE id = 1";
-        PostgresHandler <Matrix> dbHandler = new PostgresHandler<>(url,user,password);
+
+        /*
+        I left objects and methods that is used for file handling in case of adding new matrixes to DB
+         */
+
         String readPath = FilePathConstants.LINUX_ABSOLUTE_FILE_READ_PATH;
         FileParser parser = new XLSXFileParser();
         XLSXFileHandler fileHandler = new XLSXFileHandler();
-        Matrix firstMatrix = getMatrixFromDB(dbHandler,returnFirstMatrixStatement, 1);
-        Matrix secondMatrix = getMatrixFromDB(dbHandler,returnSecondMatrixStatement,1 );
+
+        /*
+        Creating connection between Java and Postgress where I get matrixes from DB,
+        do multiplication procedure, insert the result in DB and return it back
+         */
+
+        Connection connection = DriverManager.getConnection(DataBaseConstants.URL, DataBaseConstants.USER,DataBaseConstants.PASSWORD);
+        PostgresHandler <Matrix> dbHandler = new PostgresHandler<>();
+        Matrix firstMatrix = getMatrixFromDB(dbHandler,DataBaseConstants.SELECT_FIRST_MATRIX_FROM_MATRIX_STORAGE ,1, connection);
+        Matrix secondMatrix = getMatrixFromDB(dbHandler,DataBaseConstants.SELECT_SECOND_MATRIX_FROM_MATRIX_STORAGE,1,connection);
         Matrix thirdMatrix = enhancedThreadMultiplyer(firstMatrix,secondMatrix);
-        dbHandler.insertJSONInResult(thirdMatrix);
-        Matrix forthMatrix = getMatrixFromDB(dbHandler, returnResultStatement,1);
-        forthMatrix.showMatrix();
+        dbHandler.insertJSONInResult(thirdMatrix,connection);
+        Matrix forthMatrix = getMatrixFromDB(dbHandler,DataBaseConstants.SELECT_FROM_RESULT_STORAGE,1,connection);
+        connection.close();
     }
 
     private static Matrix enhancedThreadMultiplyer(Matrix firstMatrix, Matrix secondMatrix) throws Exception {
@@ -70,10 +77,12 @@ public class Main {
 
         return matrix;
     }
-    private static Matrix getMatrixFromDB(PostgresHandler<Matrix> crud, String outStatement, int neededColumn) throws SQLException {
-        return new CustomIntegerMatrixCreator().convertMatrixFromJson(crud.selectJSON(outStatement,neededColumn));
+
+    private static Matrix getMatrixFromDB(PostgresHandler<Matrix> crud, String outStatement, int neededColumn, Connection connection) throws SQLException {
+        return new CustomIntegerMatrixCreator().convertMatrixFromJson(crud.selectJSON(outStatement,connection,neededColumn));
     }
-    private static void insertMatrixInDB(PostgresHandler<Matrix> crud, String inStatement, Matrix... matrix) throws SQLException{
-        crud.insertJSON(inStatement,matrix);
+
+    private static void insertMatrixInDB(PostgresHandler<Matrix> crud, String inStatement, Connection connection, Matrix... matrix) throws SQLException{
+        crud.insertJSON(inStatement,connection,matrix);
     }
 }

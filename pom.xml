@@ -9,13 +9,11 @@
     </properties>
     <modelVersion>4.0.0</modelVersion>
 
-
     <groupId>com.src.main.java.com.company</groupId>
     <artifactId>test04</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
-
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>

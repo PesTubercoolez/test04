@@ -1,6 +1,6 @@
 package com.company.service.FileHandler.impl;
 
-import com.company.FileConstants.FilePathConstants;
+import com.company.constants.FileConstants.FilePathConstants;
 import com.company.service.FileHandler.FileHandler;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
