@@ -46,7 +46,6 @@ public class Main {
         dbHandler.insertJSONInResult(thirdMatrix, connection);
         //Creating new matrix from result_storage table in database
         Matrix forthMatrix = getMatrixFromDB(dbHandler, DataBaseConstants.SELECT_FROM_RESULT_STORAGE, 1, connection);
-        writeFile(fileHandler, parser, FilePathConstants.LINUX_ABSOLUTE_FILE_WRITE_PATH, forthMatrix);
         connection.close();
     }
 
