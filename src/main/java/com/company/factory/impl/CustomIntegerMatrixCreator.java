@@ -12,7 +12,6 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
 
     @Override
     public Matrix createMatrix(int rows, int columns) throws ZeroInputException {
-
         if (rows == 0 || columns == 0) {
             throw new ZeroInputException();
         }
@@ -21,7 +20,6 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
     }
 
     public Matrix createMatrixFromFile(List<List<String>> list) throws ZeroInputException {
-
         IntegerMatrix matrix = new IntegerMatrix(list.size(), list.get(0).size());
 
         if (matrix.getRows() == 0 || matrix.getColumns() == 0) {
@@ -32,8 +30,6 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
     }
 
     public Matrix convertMatrixFromJson(String matrixInJson) {
-        IntegerMatrix resultMatrix = new Gson().fromJson(matrixInJson, IntegerMatrix.class);
-
-        return resultMatrix;
+        return new Gson().fromJson(matrixInJson, IntegerMatrix.class);
     }
 }

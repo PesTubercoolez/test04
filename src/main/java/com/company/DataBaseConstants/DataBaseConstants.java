@@ -1,4 +1,4 @@
-package com.company.constants.DataBaseConstants;
+package com.company.DataBaseConstants;
 
 public class DataBaseConstants {
 

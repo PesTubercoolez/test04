@@ -1,24 +1,12 @@
 package com.company.service.DataBaseHandler.impl;
 
-import com.company.constants.DataBaseConstants.DataBaseConstants;
+import com.company.DataBaseConstants.DataBaseConstants;
 import com.company.service.DataBaseHandler.RDBCRUD;
 import com.google.gson.Gson;
 
 import java.sql.*;
 
 public class PostgresHandler<T> implements RDBCRUD<T> {
-
-    @Override
-    public void insertJSON(String insertStatement, Connection connection, T... firstObject) throws SQLException {
-        PreparedStatement inStatement = connection.prepareStatement(insertStatement);
-        Gson jsonFormatter = new Gson();
-
-        for (int x = 0; x < firstObject.length; x++) {
-            inStatement.setString((x + 1), jsonFormatter.toJson(firstObject[x]));
-        }
-        inStatement.executeUpdate();
-        inStatement.close();
-    }
 
     public void insertJSONInResult(T object, Connection connection) throws SQLException {
         PreparedStatement preparedStatement;
