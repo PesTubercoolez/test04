@@ -1,31 +1,32 @@
 package com.company.service.DataBaseHandler.impl;
+
 import com.company.constants.DataBaseConstants.DataBaseConstants;
 import com.company.service.DataBaseHandler.RDBCRUD;
 import com.google.gson.Gson;
 
 import java.sql.*;
 
-public class PostgresHandler <T> implements RDBCRUD<T> {
+public class PostgresHandler<T> implements RDBCRUD<T> {
 
     @Override
-    public void insertJSON(String insertStatement, Connection connection ,T... firstObject) throws SQLException {
+    public void insertJSON(String insertStatement, Connection connection, T... firstObject) throws SQLException {
         PreparedStatement inStatement = connection.prepareStatement(insertStatement);
         Gson jsonFormatter = new Gson();
 
-        for (int x = 0; x < firstObject.length; x++ ) {
+        for (int x = 0; x < firstObject.length; x++) {
             inStatement.setString((x + 1), jsonFormatter.toJson(firstObject[x]));
         }
         inStatement.executeUpdate();
         inStatement.close();
     }
 
-    public void insertJSONInResult (T object, Connection connection) throws SQLException {
+    public void insertJSONInResult(T object, Connection connection) throws SQLException {
         PreparedStatement preparedStatement;
         String insertedObject = new Gson().toJson(object);
 
         if (contentChecker(insertedObject, connection)) {
-             preparedStatement = connection.prepareStatement(DataBaseConstants.INSERT_IN_RESULT_STORAGE);
-        }else{
+            preparedStatement = connection.prepareStatement(DataBaseConstants.INSERT_IN_RESULT_STORAGE);
+        } else {
             preparedStatement = connection.prepareStatement(DataBaseConstants.UPDATE_RESULT_STORAGE);
         }
         preparedStatement.setInt(1, 1);
@@ -35,7 +36,7 @@ public class PostgresHandler <T> implements RDBCRUD<T> {
     }
 
     @Override
-    public String selectJSON(String outStatement,Connection connection ,int neededRow) throws SQLException {
+    public String selectJSON(String outStatement, Connection connection, int neededRow) throws SQLException {
         Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ResultSet resultSet = statement.executeQuery(outStatement);
         resultSet.relative(neededRow);
@@ -56,19 +57,16 @@ public class PostgresHandler <T> implements RDBCRUD<T> {
             resultSet.next();
             contentCounter = resultSet.getRow();
         }
-            if (contentCounter != 0) {
-                while (!resultSet.isLast()) {
-                    resultSet.next();
-                    if (insertedObject.equals(resultSet.getString(1))) {
-                        firstColumnContentCheck = false;
-                    } else {
-                        firstColumnContentCheck = true;
-                    }
-                }
-            }else {
-                firstColumnContentCheck = true;
-                resultSet.close();
+
+        if (contentCounter != 0) {
+            while (!resultSet.isLast()) {
+                resultSet.next();
+                firstColumnContentCheck = !insertedObject.equals(resultSet.getString(1));
             }
+        } else {
+            firstColumnContentCheck = true;
+            resultSet.close();
+        }
         statement.close();
         resultSet.close();
 
