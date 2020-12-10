@@ -30,15 +30,19 @@ public class Main {
         String readPath = FilePathConstants.LINUX_ABSOLUTE_FILE_READ_PATH;
         FileParser parser = new XLSXFileParser();
         XLSXFileHandler fileHandler = new XLSXFileHandler();
-        //Creating connection and database handler objects for establishing connection between Java and PostgresSQL
+        /*
+        Creating connection and database handler objects for establishing connection between Java and PostgresSQL and
+        creating matrix objects via taking them from matrix_storage table in database in JSON format and conversion them to matrix
+         */
         Connection connection = DriverManager.getConnection(DataBaseConstants.URL, DataBaseConstants.USER, DataBaseConstants.PASSWORD);
         PostgresHandler<Matrix> dbHandler = new PostgresHandler<>();
-        //Creating matrix objects via taking them from matrix_storage table in database in JSON format and conversion them to matrix
         Matrix firstMatrix = getMatrixFromDB(dbHandler, DataBaseConstants.SELECT_FIRST_MATRIX_FROM_MATRIX_STORAGE, 1, connection);
         Matrix secondMatrix = getMatrixFromDB(dbHandler, DataBaseConstants.SELECT_SECOND_MATRIX_FROM_MATRIX_STORAGE, 1, connection);
-        //Calling the method that multiply two matrixes and return result in matrix object
+        /*
+        Calling the method that multiply two matrixes and return result in matrix object and
+        calling the method that converts matrix in JSON format and setting it in database
+         */
         Matrix thirdMatrix = enhancedThreadMultiplyer(firstMatrix, secondMatrix);
-        //Calling the method that converts matrix in JSON format and setting it in database
         dbHandler.insertJSONInResult(thirdMatrix, connection);
         //Creating new matrix from result_storage table in database
         Matrix forthMatrix = getMatrixFromDB(dbHandler, DataBaseConstants.SELECT_FROM_RESULT_STORAGE, 1, connection);
