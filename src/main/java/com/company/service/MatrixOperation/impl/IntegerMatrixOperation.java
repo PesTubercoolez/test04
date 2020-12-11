@@ -33,7 +33,6 @@ public class IntegerMatrixOperation implements MatrixOperation {
     }
 
     public Number[] multiplyMatrixWithVectors(Matrix firstMatrix, Matrix secondMatrix, int position) {
-
         if (firstMatrix.getRows() == secondMatrix.getColumns()) {
             int result;
             Number[] resultArray = new Number[secondMatrix.getRows()];
@@ -51,6 +50,7 @@ public class IntegerMatrixOperation implements MatrixOperation {
             return resultArray;
         } else {
             System.out.println("You cannot multiply this vectors " + firstMatrix.getColumns() + " " + secondMatrix.getRows());
+
             return firstMatrix.getRowVector(0);
         }
     }

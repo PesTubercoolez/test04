@@ -11,4 +11,5 @@ public class DataBaseConstants {
     public static final String SELECT_FIRST_MATRIX_FROM_MATRIX_STORAGE = "SELECT first_matrix FROM matrix_storage WHERE id = 1";
     public static final String SELECT_SECOND_MATRIX_FROM_MATRIX_STORAGE = "SELECT second_matrix FROM matrix_storage WHERE id = 1";
     public static final String SELECT_FROM_RESULT_STORAGE = "SELECT result_matrix FROM result_storage";
+
 }
