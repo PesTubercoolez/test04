@@ -1,54 +1,78 @@
 package com.company.model.impl;
 
 import com.company.model.Matrix;
+import com.company.service.MatrixConverterToJSON.MatrixConverterToJSON;
 
+import javax.persistence.*;
+
+@Entity
 public class IntegerMatrix implements Matrix {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column
     private int rows;
+    @Column
     private int columns;
-    private int[][] arr;
+    @Transient
+    private int[][] array;
+    @Column
     private int size;
+    @Column
     private Number value;
+    @Transient
     private Number[] vector;
+    @Column
     private boolean hasContent = false;
+    @Column
+    private String arrayRepresentation;
+
 
     public IntegerMatrix(int rows, int columns) {
 
         this.rows = rows;
         this.columns = columns;
-        this.arr = new int[rows][columns];
+        this.array = new int[rows][columns];
+        this.arrayRepresentation = getArrayRepresentation();
     }
 
-    public IntegerMatrix(int[][] arr) {
+    public IntegerMatrix(int[][] array) {
 
-        this.columns = arr[0].length;
-        this.rows = arr.length;
-        this.arr = new int[rows][columns];
-        setAllValues(arr);
+        this.columns = array[0].length;
+        this.rows = array.length;
+        this.array = new int[rows][columns];
+        setAllValues(array);
+        this.arrayRepresentation = getArrayRepresentation();
+    }
+
+    public IntegerMatrix(){
+
     }
 
     @Override
     public void showMatrix() {
 
-        for (int x = 0; x < this.arr.length; x++) {
+        for (int x = 0; x < this.array.length; x++) {
 
-            for (int j = 0; j < this.arr[0].length; j++) {
-                System.out.print(this.arr[x][j] + "\t");
+            for (int j = 0; j < this.array[0].length; j++) {
+                System.out.print(this.array[x][j] + "\t");
             }
             System.out.println();
         }
         System.out.println("----------");
     }
 
+    @Override
     public void setAllValues(int[][] arr) {
 
-        if (arr.length == this.arr.length && arr[0].length == this.arr[0].length) {
+        if (arr.length == this.array.length && arr[0].length == this.array[0].length) {
 
-            for (int x = 0; x < this.arr.length; x++) {
+            for (int x = 0; x < this.array.length; x++) {
 
-                for (int k = 0; k < this.arr[0].length; k++) {
+                for (int k = 0; k < this.array[0].length; k++) {
                     int j = arr[x][k];
-                    this.arr[x][k] = j;
+                    this.array[x][k] = j;
                 }
             }
         }
@@ -57,49 +81,50 @@ public class IntegerMatrix implements Matrix {
     @Override
     public int getSize() {
 
-        size = this.arr.length * this.arr[0].length;
+        size = this.array.length * this.array[0].length;
         return size;
     }
 
     @Override
     public int getRows() {
 
-        this.rows = this.arr.length;
+        this.rows = this.array.length;
         return this.rows;
     }
 
     @Override
     public int getColumns() {
 
-        this.columns = this.arr[0].length;
+        this.columns = this.array[0].length;
         return this.columns;
     }
 
-    public int[][] getMatrix() {
+    @Override
+    public int[][] getArray() {
 
-        return this.arr;
+        return this.array;
     }
 
     @Override
     public Number getValue(int row, int column) {
 
-        value = this.arr[row][column];
+        value = this.array[row][column];
         return value.intValue();
     }
 
     @Override
     public void setValue(int row, int column, Number value) {
 
-        this.arr[row][column] = value.intValue();
+        this.array[row][column] = value.intValue();
     }
 
     @Override
     public Number[] getRowVector(int position) {
 
-        this.vector = new Number[this.arr.length];
+        this.vector = new Number[this.array.length];
 
-        for (int x = 0; x < this.arr.length; x++) {
-            this.vector[x] = this.arr[x][position];
+        for (int x = 0; x < this.array.length; x++) {
+            this.vector[x] = this.array[x][position];
         }
 
         return this.vector;
@@ -108,10 +133,10 @@ public class IntegerMatrix implements Matrix {
     @Override
     public Number[] getColumnVector(int position) {
 
-        this.vector = new Number[this.arr[0].length];
+        this.vector = new Number[this.array[0].length];
 
-        for (int x = 0; x < this.arr[0].length; x++) {
-            this.vector[x] = this.arr[position][x];
+        for (int x = 0; x < this.array[0].length; x++) {
+            this.vector[x] = this.array[position][x];
         }
 
         return this.vector;
@@ -136,20 +161,23 @@ public class IntegerMatrix implements Matrix {
         return this.value;
     }
 
+    @Override
     public void setRowVector(int position, Number[] vector) {
 
-        for (int x = 0; x < this.arr.length; x++) {
-            this.arr[x][position] = vector[x].intValue();
+        for (int x = 0; x < this.array.length; x++) {
+            this.array[x][position] = vector[x].intValue();
         }
     }
 
+    @Override
     public void setColumnVector(int position, Number[] vector) {
 
-        for (int x = 0; x < this.arr[0].length; x++) {
-            this.arr[position][x] = vector[x].intValue();
+        for (int x = 0; x < this.array[0].length; x++) {
+            this.array[position][x] = vector[x].intValue();
         }
     }
 
+    @Override
     public void setVectorValue(int vectorPosition, int valuePosition, String vectorDirection, Number value) {
 
         switch (vectorDirection) {
@@ -166,6 +194,7 @@ public class IntegerMatrix implements Matrix {
         }
     }
 
+    @Override
     public boolean isRowFilled(int position) {
 
         this.vector = getRowVector(position);
@@ -200,5 +229,9 @@ public class IntegerMatrix implements Matrix {
         }
 
         return this.hasContent;
+    }
+
+    public String getArrayRepresentation(){
+        return new MatrixConverterToJSON().convertMatrixArrayToJSON(this);
     }
 }

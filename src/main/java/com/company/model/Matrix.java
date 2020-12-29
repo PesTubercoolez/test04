@@ -10,6 +10,8 @@ public interface Matrix {
 
     int getColumns();
 
+    int [][] getArray();
+
     Number getValue(int row, int column);
 
     void setValue(int row, int column, Number value);
@@ -19,6 +21,8 @@ public interface Matrix {
     Number[] getColumnVector(int position);
 
     Number getVectorValue(int vectorPosition, int valuePosition, String vectorDirection);
+
+    void setAllValues(int [][] array);
 
     void setRowVector(int position, Number[] vector);
 
