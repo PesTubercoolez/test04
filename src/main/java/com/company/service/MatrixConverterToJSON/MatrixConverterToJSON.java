@@ -1,8 +1,10 @@
 package com.company.service.MatrixConverterToJSON;
 
-import com.company.model.Matrix;
+import com.company.model.Matrix.Matrix;
 import com.google.gson.Gson;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MatrixConverterToJSON {
 
     public String convertMatrixArrayToJSON(Matrix matrix){

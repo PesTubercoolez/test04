@@ -1,7 +1,10 @@
 package com.company.service;
 
+import org.springframework.stereotype.Service;
+
 import java.util.Scanner;
 
+@Service
 public class InputScanner {
 
     public int scanInt (){

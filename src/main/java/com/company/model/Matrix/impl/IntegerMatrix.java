@@ -1,40 +1,43 @@
-package com.company.model.impl;
+package com.company.model.Matrix.impl;
 
-import com.company.model.Matrix;
-import com.company.service.MatrixConverterToJSON.MatrixConverterToJSON;
+import com.company.model.Matrix.Matrix;
+import com.company.model.User.User;
 
 import javax.persistence.*;
 
 @Entity
+@Table(name = "matrix_repository")
 public class IntegerMatrix implements Matrix {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "matrix_id")
     private Long id;
-    @Column
+    @Column(name = "rows")
     private int rows;
-    @Column
+    @Column(name = "columns")
     private int columns;
+    @Column(name = "matrix_values")
+    private String arrayRepresentation;
+    @Transient
+    private int size;
     @Transient
     private int[][] array;
-    @Column
-    private int size;
-    @Column
+    @Transient
     private Number value;
     @Transient
     private Number[] vector;
-    @Column
+    @Transient
     private boolean hasContent = false;
-    @Column
-    private String arrayRepresentation;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    User user;
 
     public IntegerMatrix(int rows, int columns) {
 
         this.rows = rows;
         this.columns = columns;
         this.array = new int[rows][columns];
-        this.arrayRepresentation = getArrayRepresentation();
     }
 
     public IntegerMatrix(int[][] array) {
@@ -43,11 +46,16 @@ public class IntegerMatrix implements Matrix {
         this.rows = array.length;
         this.array = new int[rows][columns];
         setAllValues(array);
-        this.arrayRepresentation = getArrayRepresentation();
     }
 
     public IntegerMatrix(){
 
+    }
+
+    public IntegerMatrix(Matrix huj) {
+        this.columns = huj.getColumns();
+        this.rows = huj.getRows();
+        this.array = huj.getArray();
     }
 
     @Override
@@ -65,9 +73,7 @@ public class IntegerMatrix implements Matrix {
 
     @Override
     public void setAllValues(int[][] arr) {
-
-        if (arr.length == this.array.length && arr[0].length == this.array[0].length) {
-
+        this.array = new int[arr.length][arr[0].length];
             for (int x = 0; x < this.array.length; x++) {
 
                 for (int k = 0; k < this.array[0].length; k++) {
@@ -75,7 +81,6 @@ public class IntegerMatrix implements Matrix {
                     this.array[x][k] = j;
                 }
             }
-        }
     }
 
     @Override
@@ -231,7 +236,21 @@ public class IntegerMatrix implements Matrix {
         return this.hasContent;
     }
 
+    @Override
     public String getArrayRepresentation(){
-        return new MatrixConverterToJSON().convertMatrixArrayToJSON(this);
+        return this.arrayRepresentation;
+    }
+
+    @Override
+    public void setArrayRepresentation(String arrayRepresentation){
+        this.arrayRepresentation = arrayRepresentation;
+    }
+
+    public void setUser(User user){
+        this.user = user;
+    }
+
+    public User getUser(){
+        return this.user;
     }
 }

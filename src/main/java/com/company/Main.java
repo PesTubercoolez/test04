@@ -1,34 +1,47 @@
 package com.company;
 
-import com.company.model.Matrix;
-import com.company.model.impl.IntegerMatrix;
-import com.company.service.MatrixFiller.impl.CustomIntegerMatrixFiller;
-import com.company.service.MatrixOperation.impl.VectorIntegerMatrixMultiplication;
+import com.company.exception.ZeroInputException;
+import com.company.factory.MatrixCreator;
+import com.company.model.Matrix.Matrix;
+import com.company.model.Matrix.impl.IntegerMatrix;
+import com.company.model.User.User;
+import com.company.service.DAO.MatrixDAO;
+import com.company.service.DAO.UserDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@SpringBootApplication
 public class Main {
 
+    @Autowired
+    MatrixDAO matrixDAO;
+    @Autowired
+    MatrixCreator creator;
+    @Autowired
+    UserDAO userDAO;
+
     public static void main(String[] args) throws Exception {
-
-
+        SpringApplication.run(Main.class, args);
     }
 
-    private static Matrix enhancedThreadMultiplyer(Matrix firstMatrix, Matrix secondMatrix) throws Exception {
+    @EventListener(ApplicationReadyEvent.class)
+    public void run() throws ZeroInputException {
 
-        Matrix thirdMatrix = new IntegerMatrix(firstMatrix.getRows(), secondMatrix.getColumns());
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-        Future<Number[]> futureVector;
-        CustomIntegerMatrixFiller filler = new CustomIntegerMatrixFiller();
+        /*User vasyan = new User(13, "Vasyan", "Dolbyk", "User");
+        List<IntegerMatrix> matrixList = creator.createMatrixList(2)
+                .stream()
+                .map(matrix -> (IntegerMatrix) matrix)
+                .collect(Collectors.toList());
 
-        for (int x = 0; x < firstMatrix.getRows(); x++) {
-            futureVector = executor.submit(new VectorIntegerMatrixMultiplication(firstMatrix, secondMatrix, x));
-            filler.fillMatrixFromVector(thirdMatrix, futureVector.get(), x);
-        }
-        executor.shutdown();
-        thirdMatrix.showMatrix();
-        return thirdMatrix;
+        userDAO.saveUser(vasyan);
+        matrixList.forEach(matrix -> matrix.setUser(vasyan));
+        matrixDAO.saveMatrixList(matrixList);*/
+        userDAO.deleteUserById(1L);
     }
 }

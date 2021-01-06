@@ -1,4 +1,4 @@
-package com.company.model;
+package com.company.model.Matrix;
 
 public interface Matrix {
 
@@ -28,7 +28,11 @@ public interface Matrix {
 
     void setColumnVector(int position, Number[] vector);
 
+    void setArrayRepresentation(String arrayRepresentation);
+
     void setVectorValue(int vectorPosition, int valuePosition, String typeOfVector, Number value);
+
+    String getArrayRepresentation();
 
     boolean isRowFilled(int position);
 

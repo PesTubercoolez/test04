@@ -4,4 +4,8 @@ spring:
     username: root
     password: zetaprime1
   jpa:
-    hibernate:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true

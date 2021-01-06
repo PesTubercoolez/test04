@@ -1,6 +1,6 @@
 package com.company.service.MatrixFiller;
 
-import com.company.model.Matrix;
+import com.company.model.Matrix.Matrix;
 
 public interface MatrixFiller {
 

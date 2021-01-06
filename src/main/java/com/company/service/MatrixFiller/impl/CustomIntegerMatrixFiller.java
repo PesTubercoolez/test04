@@ -1,9 +1,11 @@
 package com.company.service.MatrixFiller.impl;
 
-import com.company.model.Matrix;
+import com.company.model.Matrix.Matrix;
 import com.company.service.InputScanner;
 import com.company.service.MatrixFiller.MatrixFiller;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CustomIntegerMatrixFiller implements MatrixFiller {
 
     @Override
