@@ -32,7 +32,7 @@ public class IntegerMatrix implements Matrix {
     private boolean hasContent = false;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id",nullable = false)
     User user;
 
     public IntegerMatrix(int rows, int columns) {

@@ -39,6 +39,7 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
         return matrix;
     }
 
+    @Override
     public Matrix createMatrixFromFile(List<List<String>> list) throws ZeroInputException {
 
         IntegerMatrix matrix = new IntegerMatrix(list.size(), list.get(0).size());
@@ -50,6 +51,7 @@ public class CustomIntegerMatrixCreator implements MatrixCreator {
         return matrix;
     }
 
+    @Override
     public List<Matrix> createMatrixList(int matrixQuantity) throws ZeroInputException{
         List<Matrix> matrixList = new ArrayList<>(matrixQuantity);
 

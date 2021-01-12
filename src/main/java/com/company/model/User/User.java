@@ -1,6 +1,7 @@
 package com.company.model.User;
 
 import com.company.model.Matrix.impl.IntegerMatrix;
+import com.sun.istack.internal.NotNull;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,13 +12,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "age")
+    @Column(name = "age",nullable = false)
     private int age;
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "role")
+    @Column(name = "role", nullable = false)
     private String role;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<IntegerMatrix> matrixList;
