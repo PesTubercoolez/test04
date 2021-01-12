@@ -2,6 +2,7 @@ package com.company.model.Matrix.impl;
 
 import com.company.model.Matrix.Matrix;
 import com.company.model.User.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -29,6 +30,7 @@ public class IntegerMatrix implements Matrix {
     private Number[] vector;
     @Transient
     private boolean hasContent = false;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     User user;

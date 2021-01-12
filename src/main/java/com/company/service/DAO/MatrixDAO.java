@@ -38,8 +38,18 @@ public class MatrixDAO {
             return matrix;
     }
 
+    public List<IntegerMatrix> getMatrixByUser(String userName) {
+        List <IntegerMatrix> matrixList = repository.getMatrixByUser(userName);
+        matrixList.forEach(matrix -> matrix.setAllValues(converter.convertJSONToMatrixArray(matrix.getArrayRepresentation())));
+
+        return matrixList;
+    }
+
     public List<IntegerMatrix> getAllMatrix(){
-        return repository.findAll();
+        List <IntegerMatrix> matrixList = repository.findAll();
+        matrixList.forEach(matrix -> matrix.setAllValues(converter.convertJSONToMatrixArray(matrix.getArrayRepresentation())));
+
+        return matrixList;
     }
 
     public void deleteMatrixById(Long id){
