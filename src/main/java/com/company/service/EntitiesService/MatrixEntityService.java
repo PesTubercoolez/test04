@@ -1,4 +1,4 @@
-package com.company.service.DAO;
+package com.company.service.EntitiesService;
 
 import com.company.model.Matrix.impl.IntegerMatrix;
 import com.company.repository.MatrixRepository;
@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MatrixDAO {
+public class MatrixEntityService {
 
     @Autowired
     private final MatrixRepository repository;
     @Autowired
     private final MatrixConverterToJSON converter;
 
-    public MatrixDAO(MatrixRepository repository, MatrixConverterToJSON converter) {
+    public MatrixEntityService(MatrixRepository repository, MatrixConverterToJSON converter) {
         this.repository = repository;
         this.converter = converter;
     }

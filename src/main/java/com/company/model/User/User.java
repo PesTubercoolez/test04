@@ -1,12 +1,15 @@
 package com.company.model.User;
 
 import com.company.model.Matrix.impl.IntegerMatrix;
-import com.sun.istack.internal.NotNull;
+import com.company.model.Role;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
+@DynamicUpdate
 @Table(name = "matrix_user")
 public class User {
     @Id
@@ -18,20 +21,30 @@ public class User {
     private String name;
     @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "role", nullable = false)
-    private String role;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<IntegerMatrix> matrixList;
+    @ManyToMany
+    @JoinTable(name ="user_roles",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<Role> roles;
 
     public User() {
 
     }
 
-    public User (int age, String name, String password, String role){
+    public User (int age, String name, String password){
         setAge(age);
         setName(name);
         setPassword(password);
-        setRole(role);
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
     }
 
     public void setAge(int age){
@@ -46,10 +59,6 @@ public class User {
         this.password = password;
     }
 
-    public void setRole(String role){
-        this.role = role;
-    }
-
     public String getName(){
         return this.name;
     }
@@ -60,10 +69,6 @@ public class User {
 
     public String getPassword(){
         return this.password;
-    }
-
-    public String getRole(){
-        return this.role;
     }
 
     public void setMatrixList(List<IntegerMatrix> matrixList){
