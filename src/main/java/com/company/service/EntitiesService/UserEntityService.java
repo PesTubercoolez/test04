@@ -9,6 +9,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,12 +23,15 @@ public class UserEntityService implements UserDetailsService {
 
     @Autowired
     private final UserRepository repository;
+    @Autowired
+    private PasswordEncoder encoder;
 
     public UserEntityService(UserRepository userRepository){
         this.repository = userRepository;
     }
 
     public void saveUser(User user){
+        user.setPassword(encoder.encode(user.getPassword()));
         repository.save(user);
     }
 
@@ -34,12 +39,13 @@ public class UserEntityService implements UserDetailsService {
         return repository.findById(id).orElse(null);
     }
 
+    @Transactional
     public List<User> getAllUsers(){
         return repository.findAll();
     }
 
-    public void updateUser(int age, String name, String password, Long id){
-        repository.updateUser(age, name, password, id);
+    public void updateUser(User user, Long id){
+        repository.updateUser(user.getAge(), user.getName(), user.getPassword(), id);
     }
 
     public User getUserByName(String name) {

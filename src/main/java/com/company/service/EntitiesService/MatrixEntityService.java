@@ -6,6 +6,7 @@ import com.company.service.MatrixConverterToJSON.MatrixConverterToJSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -38,6 +39,7 @@ public class MatrixEntityService {
             return matrix;
     }
 
+    @Transactional
     public List<IntegerMatrix> getMatrixByUser(String userName) {
         List <IntegerMatrix> matrixList = repository.getMatrixByUser(userName);
         matrixList.forEach(matrix -> matrix.setAllValues(converter.convertJSONToMatrixArray(matrix.getArrayRepresentation())));
@@ -45,6 +47,7 @@ public class MatrixEntityService {
         return matrixList;
     }
 
+    @Transactional
     public List<IntegerMatrix> getAllMatrix(){
         List <IntegerMatrix> matrixList = repository.findAll();
         matrixList.forEach(matrix -> matrix.setAllValues(converter.convertJSONToMatrixArray(matrix.getArrayRepresentation())));

@@ -8,6 +8,8 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -19,23 +21,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/main/registration").permitAll()
+                .antMatchers(HttpMethod.POST, "/registration").permitAll()
                 .antMatchers("/profile/**").authenticated()
                     .and()
                     .formLogin()
                         .and()
-                            .logout().logoutSuccessUrl("/main");
+                            .logout().logoutSuccessUrl("/welcome");
     }
 
-    /*@Bean
+    @Bean
     public PasswordEncoder getEncoder() {
         return new BCryptPasswordEncoder();
-    }*/
+    }
 
     @Bean
     public DaoAuthenticationProvider getDaoProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        //provider.setPasswordEncoder(getEncoder());
+        provider.setPasswordEncoder(getEncoder());
         provider.setUserDetailsService(userService);
 
         return provider;
