@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>User Page</title>
+</head>
+<body>
+<h1>User Information</h1>
+<p th:text ="'name: ' + ${user.name}"></p>
+<p th:text ="'age: ' + ${user.age}"></p>
+<br/>
+<a href="profile/new_matrix">
+    <input type ="submit" value="Add New Matrix" id = "newMatrix">
+</a>
+<br/>
+<a href="profile/matrix_view">
+    <input type="submit" value="See your matrix">
+</a>
+</body>
+</html>

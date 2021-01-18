@@ -21,6 +21,8 @@ public class UserController {
         return "/welcome";
     }
 
+    
+
     @GetMapping("/profile")
     public String profileInfo(Principal principal) {
         User user = entityService.getUserByName(principal.getName());
@@ -39,6 +41,6 @@ public class UserController {
         model.addAttribute("user", user);
         //user.setPassword(encoder.encode(user.getPassword()));
         entityService.saveUser(user);
-        return "/registration";
+        return "redirect:login";
     }
 }

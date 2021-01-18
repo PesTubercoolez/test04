@@ -25,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/profile/**").authenticated()
                     .and()
                     .formLogin()
+                    .defaultSuccessUrl("/profile")
                         .and()
                             .logout().logoutSuccessUrl("/welcome");
     }

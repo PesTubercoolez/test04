@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Add New Matrix</title>
+</head>
+<form action="#" th:method="post" th:object="${matrix}">
+    <label for="rows">Enter rows quantity</label>
+    <input type="text" th:field="*{rows}" id="rows"/>
+    <label for="columns">Enter columns quantity</label>
+    <input type="text" th:field="*{columns}" id="columns"/>
+    <br/>
+    <a href="/profile">
+        <input type="submit" value="Return to profile">
+    </a>
+    <br/>
+    <a href="/profile/matrix_view">
+        <input type="submit" value="See your matrix">
+    </a>
+</form>
+<body>
+
+</body>
+</html>
