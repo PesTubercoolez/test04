@@ -1,4 +1,4 @@
-package com.company.security;
+package com.company.security.config;
 
 import com.company.service.EntitiesService.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +20,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .defaultSuccessUrl("/profile")
+                .failureUrl("/login?error=true")
+                .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/registration").permitAll()
                 .antMatchers("/profile/**").authenticated()
-                    .and()
-                    .formLogin()
-                    .defaultSuccessUrl("/profile")
-                        .and()
-                            .logout().logoutSuccessUrl("/welcome");
+                .and()
+                .logout().logoutSuccessUrl("/welcome");
     }
 
     @Bean

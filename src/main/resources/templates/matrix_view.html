@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Your matrix</title>
+</head>
+<body>
+    <table>
+        <tbody>
+        <form th:object="${matrix}" th:method="get">
+            <tr th:if ="${matrix.empty}">
+                <td colspan="2">You don't have any matrix</td>
+                    <td>
+                        <a href = "/profile/matrix/new_matrix">
+                            <input type="submit" value="Let's add some"/>
+                        </a>
+                    </td>
+                </tr>
+                <br/>
+                <tr th:each="singleMatrix : ${matrix}">
+                    <td><span th:text = "${singleMatrix.id}"></span></td>
+                    <td><span th:text = "${singleMatrix.arrayRepresentation}"></span></td>
+                </tr>
+            </form>
+        </tbody>
+    </table>
+</body>
+</html>

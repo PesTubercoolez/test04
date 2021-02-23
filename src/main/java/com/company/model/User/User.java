@@ -21,6 +21,8 @@ public class User {
     private String name;
     @Column(name = "password", nullable = false)
     private String password;
+    @Column(name = "image_url")
+    private String imageUrl;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<IntegerMatrix> matrixList;
     @ManyToMany
@@ -37,6 +39,22 @@ public class User {
         setAge(age);
         setName(name);
         setPassword(password);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Collection<Role> getRoles() {

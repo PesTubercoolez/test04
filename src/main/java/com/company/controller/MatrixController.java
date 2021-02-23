@@ -5,13 +5,16 @@ import com.company.model.Matrix.impl.IntegerMatrix;
 import com.company.service.EntitiesService.MatrixEntityService;
 import com.company.service.EntitiesService.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
-import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/profile/matrix")
 public class MatrixController {
 
@@ -22,30 +25,25 @@ public class MatrixController {
     @Autowired
     MatrixCreator creator;
 
-    @GetMapping
-    @ResponseBody
-    public List<IntegerMatrix> getAllMatrixInfo(){
-        return matrixEntityService.getAllMatrix();
+    @GetMapping("/matrix_view")
+    public String getMatrixByUserName(Model model, Principal principal) {
+        model.addAttribute("matrix", matrixEntityService.getMatrixByUser(principal.getName()));
+        return "matrix_view";
     }
 
-    @GetMapping("/byId")
-    @ResponseBody
-    public IntegerMatrix getMatrixById(@RequestParam(name = "id") String id) {
-        return matrixEntityService.getMatrixById(Long.parseLong(id));
+    @GetMapping("/new_matrix")
+    public String getNewMatrixPage(Model model){
+        model.addAttribute("matrix", new IntegerMatrix());
+        return "new_matrix";
     }
 
-    @GetMapping("/byUserName")
-    @ResponseBody
-    public List<IntegerMatrix> getMatrixByUserName(@RequestParam(name = "name") String name) {
-        return matrixEntityService.getMatrixByUser(name);
-    }
+    @PostMapping("/new_matrix")
+    public String addMatrix (@ModelAttribute("matrix") IntegerMatrix matrix, Principal principal, Model model) {
+        matrix.setUser(userEntityService.getUserByName(principal.getName()));
+        model.addAttribute("matrix", matrix);
+        matrixEntityService.saveMatrix(matrix);
 
-    @PostMapping("/addNewMatrix")
-    public String addMatrix (@RequestBody ResponseEntity<IntegerMatrix> matrix, Principal principal) {
-        matrix.getBody().setUser(userEntityService.getUserByName(principal.getName()));
-        matrixEntityService.saveMatrix(matrix.getBody());
-
-        return "matrix was successfully added";
+        return "new_matrix";
     }
 
     //@DeleteMapping("/deleteById")

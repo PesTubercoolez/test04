@@ -8,12 +8,13 @@
 <h1>User Information</h1>
 <p th:text ="'name: ' + ${user.name}"></p>
 <p th:text ="'age: ' + ${user.age}"></p>
+<img src = th:img ="${user.imageUrl}"></img>
 <br/>
-<a href="profile/new_matrix">
+<a href="profile/matrix/new_matrix">
     <input type ="submit" value="Add New Matrix" id = "newMatrix">
 </a>
 <br/>
-<a href="profile/matrix_view">
+<a href="profile/matrix/matrix_view">
     <input type="submit" value="See your matrix">
 </a>
 </body>
