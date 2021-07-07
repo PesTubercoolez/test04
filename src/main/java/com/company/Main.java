@@ -1,38 +1,40 @@
 package com.company;
 
-import com.company.FileConstants.FilePathConstants;
-import com.company.exception.ZeroInputException;
+import com.company.DataBaseConstants.DataBaseConstants;
 import com.company.factory.impl.CustomIntegerMatrixCreator;
 import com.company.model.Matrix;
 import com.company.model.impl.IntegerMatrix;
-import com.company.service.FileHandler.FileHandler;
-import com.company.service.FileHandler.impl.XLSXFileHandler;
-import com.company.service.FileParser.FileParser;
-import com.company.service.FileParser.impl.XLSXFileParser;
+import com.company.service.DataBaseHandler.impl.PostgresHandler;
 import com.company.service.MatrixFiller.impl.CustomIntegerMatrixFiller;
 import com.company.service.MatrixOperation.impl.VectorIntegerMatrixMultiplication;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        String readPath = FilePathConstants.LINUX_ABSOLUTE_FILE_READ_PATH;
-        FileParser parser = new XLSXFileParser();
-        XLSXFileHandler fileHandler = new XLSXFileHandler();
-        Matrix firstMatrix = readFile(parser, readPath, 0, fileHandler);
-        Matrix secondMatrix = readFile(parser, readPath, 1, fileHandler);
-        Matrix thirdMatrix = enhancedThreadMultiplyer(firstMatrix, secondMatrix);
-        writeFile(fileHandler, parser, FilePathConstants.LINUX_ABSOLUTE_FILE_WRITE_PATH, thirdMatrix);
+        //Creating connection and DB handler
+        Connection connection = DriverManager.getConnection(DataBaseConstants.URL, DataBaseConstants.USER, DataBaseConstants.PASSWORD);
+        PostgresHandler<Matrix> dbHandler = new PostgresHandler<>();
+
+        //Inserting result matrix in database
+        dbHandler.insertJSONInResult(enhancedThreadMultiplyer(getMatrixFromDB(dbHandler, DataBaseConstants.SELECT_FIRST_MATRIX_FROM_MATRIX_STORAGE, connection),
+                getMatrixFromDB(dbHandler, DataBaseConstants.SELECT_SECOND_MATRIX_FROM_MATRIX_STORAGE, connection)), connection);
+
+        //Creating new matrix from result_storage table in database
+        getMatrixFromDB(dbHandler, DataBaseConstants.SELECT_FROM_RESULT_STORAGE, connection);
+        connection.close();
     }
 
     private static Matrix enhancedThreadMultiplyer(Matrix firstMatrix, Matrix secondMatrix) throws Exception {
-
         Matrix thirdMatrix = new IntegerMatrix(firstMatrix.getRows(), secondMatrix.getColumns());
-        ExecutorService executor = Executors.newFixedThreadPool(2);
+        ExecutorService executor = Executors.newFixedThreadPool(8);
         Future<Number[]> futureVector;
         CustomIntegerMatrixFiller filler = new CustomIntegerMatrixFiller();
 
@@ -41,24 +43,11 @@ public class Main {
             filler.fillMatrixFromVector(thirdMatrix, futureVector.get(), x);
         }
         executor.shutdown();
-        thirdMatrix.showMatrix();
+
         return thirdMatrix;
     }
 
-    private static void writeFile(FileHandler handler, FileParser parser, String path, Matrix resultMatrix) throws IOException {
-
-        File file = handler.createFile(path);
-        handler.writeFile(file, parser.parseVariablesToList(resultMatrix));
-    }
-
-    private static Matrix readFile(FileParser parser, String path, int numberOfSheet, FileHandler handler) throws IOException, ZeroInputException {
-
-        File file = handler.createFile(path);
-        CustomIntegerMatrixCreator creator = new CustomIntegerMatrixCreator();
-        Matrix matrix = creator.createMatrixFromFile(parser.readFromFile(file, numberOfSheet));
-        CustomIntegerMatrixFiller filler = new CustomIntegerMatrixFiller();
-        filler.fillMatrixFromList(matrix, parser.readFromFile(file, numberOfSheet));
-
-        return matrix;
+    private static Matrix getMatrixFromDB(PostgresHandler<Matrix> crud, String outStatement, Connection connection) throws SQLException {
+        return new CustomIntegerMatrixCreator().convertMatrixFromJson(crud.selectJSON(outStatement, connection, 1));
     }
 }

@@ -1,0 +1,17 @@
+version: '3.1'
+services:
+
+  vdma_postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: matrix_db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: zetaprime1
+    ports:
+      - "5432:5432"
+    volumes:
+      - vdma_postgres:/var/lib/postgresql/data
+
+volumes:
+  vdma_postgres:
+
