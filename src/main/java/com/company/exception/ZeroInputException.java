@@ -6,5 +6,3 @@ public class ZeroInputException extends Exception {
         super();
     }
 }
-
-

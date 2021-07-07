@@ -8,19 +8,17 @@ public class IntegerMatrixOperation implements MatrixOperation {
 
     public Matrix multiplyMatrix(Matrix firstMatrix, Matrix secondMatrix) {
 
-        if (firstMatrix.getRows() == secondMatrix.getColumns() || secondMatrix.getRows() == firstMatrix.getColumns()) {
+        if (firstMatrix.getRows() == secondMatrix.getColumns()) {
 
             IntegerMatrix thirdMatrix = new IntegerMatrix(firstMatrix.getRows(), secondMatrix.getColumns());
-            int[][] arr = thirdMatrix.getMatrix();
 
             for (int i = 0; i < firstMatrix.getRows(); i++) {
                 for (int j = 0; j < secondMatrix.getColumns(); j++) {
                     for (int k = 0; k < firstMatrix.getColumns(); k++) {
-                        arr[i][j] += firstMatrix.getValue(i, k).intValue() * secondMatrix.getValue(k, j).intValue();
+                        thirdMatrix.setValue(i ,j, thirdMatrix.getValue(i,j).intValue() + firstMatrix.getValue(i, k).intValue() * secondMatrix.getValue(k, j).intValue());
                     }
                 }
             }
-            thirdMatrix.setAllValues(arr);
 
             return thirdMatrix;
         } else {
@@ -30,4 +28,3 @@ public class IntegerMatrixOperation implements MatrixOperation {
         }
     }
 }
-

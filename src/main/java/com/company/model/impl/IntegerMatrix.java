@@ -98,8 +98,3 @@ public class IntegerMatrix implements Matrix {
       this.arr[row][column] = value.intValue();
     }
 }
-
-
-//arr[0].length - columns
-
-//arr.length - rows

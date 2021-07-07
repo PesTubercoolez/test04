@@ -7,7 +7,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.io.*;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class XLSXFileHandler implements FileHandler {
         File file;
 
         if (path == null) {
-            file = File.createTempFile("New", FILE_XLSX_EXT, new File(FilePathConstants.WINDOWS_ABSOLUTE_FILE_DIRECTORY_PATH));
+            file = File.createTempFile("New", FILE_XLSX_EXT, new File(FilePathConstants.LINUX_ABSOLUTE_FILE_DIRECTORY_PATH));
         } else {
             file = new File(path);
         }
@@ -33,22 +32,15 @@ public class XLSXFileHandler implements FileHandler {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
         int rowCount = 0;
+        Cell cell;
 
         for (List<String> innerList : list) {
             Row row = sheet.createRow(rowCount++);
-            createCellsWithVariables(row, innerList);
+            for (int x = 0; x < list.get(0).size(); x++){
+                cell = row.createCell(x);
+                cell.setCellValue(Double.parseDouble(innerList.get(x)));
+            }
         }
         workbook.write(new FileOutputStream(file));
     }
-
-    private void createCellsWithVariables(Row row, List<String> list) {
-
-        Cell cell;
-
-        for (int x = 0; x < list.size(); x++) {
-            cell = row.createCell(x);
-            cell.setCellValue(Double.parseDouble(list.get(x)));
-        }
-    }
 }
-
